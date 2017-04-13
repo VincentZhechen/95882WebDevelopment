@@ -56,6 +56,7 @@
         x = document.getElementById(voteId);
         if (x.innerHTML == '&nbsp;vote') {
             x.innerHTML = 'unvote';
+
         }
         else {
             x.innerHTML = '&nbsp;vote';
@@ -76,17 +77,17 @@
 </script>
 
 
-<!--//            require('mysqli_connect.php');-->
-<!--            $sql = 'UPDATE goods-->
-<!--            SET tag = "CN"-->
-<!--            WHERE id=n';-->
-<!--//            $dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME) OR die('Could not-->
-<!--//            connect to MySQL: ' . mysqli_connect_error());-->
-<!--//            $retval = mysqli_query($dbc, $sql);-->
-<!--//            if(! $retval )-->
-<!--//            {-->
-<!--//                die('Could not update data: ' .mysqli_error());-->
-<!--//            }-->
+//            require('mysqli_connect.php');
+            $sql = 'UPDATE goods
+            SET tag = "CN"
+            WHERE id=n';
+//            $dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME) OR die('Could not
+//            connect to MySQL: ' . mysqli_connect_error());
+//            $retval = mysqli_query($dbc, $sql);
+//            if(! $retval )
+//            {
+//                die('Could not update data: ' .mysqli_error());
+//            }
 
 
 <!-- Navigation -->
@@ -230,7 +231,7 @@
                                 //connect to the database
                                 require('mysqli_connect.php');
                                 $sql = "SELECT id, good_name, supermarket, price, description,tag, promote FROM goods
-                                        WHERE tag='$key'ORDER BY promote DESC, price ASC";
+                                        WHERE tag LIKE '$key'ORDER BY promote DESC, price ASC";
                                 // Make the connection
                                 $dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME) OR die('Could not 
                         connect to MySQL: ' . mysqli_connect_error());
