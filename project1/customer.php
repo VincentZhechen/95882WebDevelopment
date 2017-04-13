@@ -54,40 +54,28 @@
     function voteFunction(n) {
         var voteId = 'vote' + n;
         x = document.getElementById(voteId);
-        if (x.innerHTML == '&nbsp;vote') {
-            x.innerHTML = 'unvote';
-
-        }
-        else {
-            x.innerHTML = '&nbsp;vote';
-        }
+        x.innerHTML = 'vote...';
     }
 
     function markFunction(n){
         var markId = 'mark' + n;
         x = document.getElementById(markId);
-        if (x.innerHTML == 'mark') {
-            x.innerHTML = 'unmark';
-        }
-        else {
-            x.innerHTML = 'mark';
-        }
-
+        x.innerHTML = 'mark...';
     }
 </script>
 
 
-//            require('mysqli_connect.php');
-            $sql = 'UPDATE goods
-            SET tag = "CN"
-            WHERE id=n';
-//            $dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME) OR die('Could not
-//            connect to MySQL: ' . mysqli_connect_error());
-//            $retval = mysqli_query($dbc, $sql);
-//            if(! $retval )
-//            {
-//                die('Could not update data: ' .mysqli_error());
-//            }
+<!--//            require('mysqli_connect.php');-->
+<!--            $sql = 'UPDATE goods-->
+<!--            SET tag = "CN"-->
+<!--            WHERE id=n';-->
+<!--//            $dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME) OR die('Could not-->
+<!--//            connect to MySQL: ' . mysqli_connect_error());-->
+<!--//            $retval = mysqli_query($dbc, $sql);-->
+<!--//            if(! $retval )-->
+<!--//            {-->
+<!--//                die('Could not update data: ' .mysqli_error());-->
+<!--//            }-->
 
 
 <!-- Navigation -->
@@ -117,10 +105,12 @@
         <hr class="divider">
         <h2 class="text-center text-lg text-uppercase my-0"><strong>Search Page</strong></h2>
         <hr class="divider">
-        <form action = "customer.php" method="post">
-            <div class="row">
-                <div class="col">
-                    <div class="form-group col-12">
+
+
+        <div class="row">
+            <form action = "customer.php" method="post">
+                <div class="form-group col-12">
+                    <div class="col">
                         <label class="text-heading" >Goods' Name</label>
                         <input type="text" name="good_name" class="form-control">
                         <br>
@@ -147,11 +137,14 @@
                         </button>
                     </div>
                 </div>
+            </form>
 
 
-
+<!--                <div class="clearfix"></div>-->
                 <div class="clearfix"></div>
                 <div class="form-control col-lg-9">
+                    <iframe name="vota" style="display:none;"></iframe>
+                    <form action="tag.php" method="post" target="vota">
 
                     <table class="table table-striped">
                         <thead>
@@ -203,12 +196,13 @@
                                                             <span class=\"caret\"></span>
                                                         </button>
                                                                 <ul class='dropdown-menu' role=\"menu\">
-                                                                    <li><button type='button'class='btn-outline-info'onclick='voteFunction({$row['id']})'
-                                                                    id='vote{$row['id']}'>&nbsp;vote</button></li>
-                                                                    <li><button type='button' class='btn-outline-info'onclick='markFunction({$row['id']})'
-                                                                    id='mark{$row['id']}'>mark</button></li>
-                                                                    <li><button type='button'class='btn-outline-info' onclick='tagFunction({$row['id']})'
-                                                                    id='tag{$row['id']}'>&nbsp;&nbsp;tag</button></li>
+                                                                    <li><button type='submit'class='btn-outline-info' onclick='voteFunction({$row['id']})' name='vote'
+                                                                     value='{$row['id']}'  id='tag{$row['id']}'>&nbsp;vote</button></li>
+                                                                    <li><button type='submit' class='btn-outline-info'onclick='markFunction({$row['id']})'
+                                                                    id='mark{$row['id']}'name='mark' value='{$row['id']}'>mark</button></li>
+                                                                    <li><input type=\"text\" name={$row['id']} class=\"col-lg-8\">
+                                                                    <button type='submit'class='btn-outline-info' onclick='tagFunction({$row['id']})' name='tag'
+                                                                     value='{$row['id']}'  id='tag{$row['id']}'>&nbsp;tag</button></li>
                                                                 </ul>
                                                     </div>
                                             </td>";
@@ -258,12 +252,13 @@
                                                             <span class=\"caret\"></span>
                                                         </button>
                                                                 <ul class='dropdown-menu' role=\"menu\">
-                                                                    <li><button type='button'class='btn-outline-info'onclick='voteFunction({$row['id']})'
-                                                                    id='vote{$row['id']}'>&nbsp;vote</button></li>
-                                                                    <li><button type='button' class='btn-outline-info'onclick='markFunction({$row['id']})'
-                                                                    id='mark{$row['id']}'>mark</button></li>
-                                                                    <li><button type='button'class='btn-outline-info' onclick='tagFunction({$row['id']})'
-                                                                    id='tag{$row['id']}'>&nbsp;&nbsp;tag</button></li>
+                                                                    <li><button type='submit'class='btn-outline-info' onclick='voteFunction({$row['id']})' name='vote'
+                                                                     value='{$row['id']}'  id='tag{$row['id']}'>&nbsp;vote</button></li>
+                                                                    <li><button type='submit' class='btn-outline-info'onclick='markFunction({$row['id']})'
+                                                                    id='mark{$row['id']}'name='mark' value='{$row['id']}'>mark</button></li>
+                                                                    <li><input type=\"text\" name={$row['id']} class=\"col-lg-8\">
+                                                                    <button type='submit'class='btn-outline-info' onclick='tagFunction({$row['id']})' name='tag'
+                                                                     value='{$row['id']}'  id='tag{$row['id']}'>&nbsp;tag</button></li>
                                                                 </ul>
                                                     </div>
                                             </td>";
@@ -313,12 +308,13 @@
                                                             <span class=\"caret\"></span>
                                                         </button>
                                                                 <ul class='dropdown-menu' role=\"menu\">
-                                                                    <li><button type='button'class='btn-outline-info'onclick='voteFunction({$row['id']})'
-                                                                    id='vote{$row['id']}'>&nbsp;vote</button></li>
-                                                                    <li><button type='button' class='btn-outline-info'onclick='markFunction({$row['id']})'
-                                                                    id='mark{$row['id']}'>mark</button></li>
-                                                                    <li><button type='button'class='btn-outline-info' onclick='tagFunction({$row['id']})'
-                                                                    id='tag{$row['id']}'>&nbsp;&nbsp;tag</button></li>
+                                                                    <li><button type='submit'class='btn-outline-info' onclick='voteFunction({$row['id']})' name='vote'
+                                                                     value='{$row['id']}'  id='tag{$row['id']}'>&nbsp;vote</button></li>
+                                                                    <li><button type='submit' class='btn-outline-info'onclick='markFunction({$row['id']})'
+                                                                    id='mark{$row['id']}'name='mark' value='{$row['id']}'>mark</button></li>
+                                                                    <li><input type=\"text\" name={$row['id']} class=\"col-lg-8\">
+                                                                    <button type='submit'class='btn-outline-info' onclick='tagFunction({$row['id']})' name='tag'
+                                                                     value='{$row['id']}'  id='tag{$row['id']}'>&nbsp;tag</button></li>
                                                                 </ul>
                                                     </div>
                                             </td>";
@@ -335,24 +331,15 @@
                                 mysqli_close($dbc); // Close the database connection.
 
                             }
-
-                            case 'tag':{
-
-                                break;
-                            }
-                            case 'promote':{
-
-                            }
-                            case 'mark': {
-
-                            }
                         }
                         ?>
                         </tbody>
                     </table>
+                    </form>
                 </div>
-            </div>
-        </form>
+
+        </div>
+
     </div>
 
 </div>

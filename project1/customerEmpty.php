@@ -108,8 +108,8 @@
         <hr class="divider">
         <form action = "customer.php" method="post">
             <div class="row">
-                <div class="col">
-                    <div class="form-group col-12">
+                <div class="form-group col-4">
+                    <div class="col">
                         <label class="text-heading" >Goods' Name</label>
                         <input type="text" name="good_name" class="form-control">
                         <br>
