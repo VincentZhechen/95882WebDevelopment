@@ -171,21 +171,17 @@
                         switch ($_REQUEST['subject']) {
                             case 'name': {
                                 $key = trim($_POST['good_name']);
-                                $count = 0;
                                 //connect to the database
                                 require('mysqli_connect.php');
 
-                                $sql = 'SELECT id, good_name, supermarket, price, description,tag, promote FROM goods
-                                        ORDER BY promote DESC, price ASC';
+                                $sql = "SELECT id, good_name, supermarket, price, description,tag, promote FROM goods WHERE 
+                                        good_name = '$key'ORDER BY promote DESC, price ASC";
                                 // Make the connection
                                 $dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME) OR die('Could not 
                         connect to MySQL: ' . mysqli_connect_error());
-                                $find = false;
                                 $retval = mysqli_query($dbc, $sql);
+                                $count = mysqli_num_rows($retval);
                                 while ($row = mysqli_fetch_array($retval)) {
-                                    if ($key == $row['good_name']) {
-                                        $find = true;
-                                        $count = $count + 1;
                                         $des = substr($row['description'], 0, 12);
                                         $name = substr($row['good_name'],0,10);
                                         $super = substr($row['supermarket'],0,12);
@@ -216,10 +212,9 @@
                                                     </div>
                                             </td>";
                                         echo "</tr>";
-                                    }
                                 }
                                 mysqli_close($dbc); // Close the database connection.
-                                if ($find == false) {
+                                if ($count == 0) {
                                     echo "<h2 align='center'> No results found</h2>";
                                     echo "<caption>Your search returned 0 results.";
                                     echo "<img class='figure-img w-25' src='img/sad2.png' align='right'></caption>";
@@ -232,21 +227,16 @@
                             }
                             case 'type': {
                                 $key = trim($_POST['good_type']);
-                                $count = 0;
                                 //connect to the database
                                 require('mysqli_connect.php');
-
-                                $sql = 'SELECT id, good_name, supermarket, price, description,tag, promote FROM goods
-                                        ORDER BY promote DESC, price ASC';
+                                $sql = "SELECT id, good_name, supermarket, price, description,tag, promote FROM goods
+                                        WHERE tag='$key'ORDER BY promote DESC, price ASC";
                                 // Make the connection
                                 $dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME) OR die('Could not 
                         connect to MySQL: ' . mysqli_connect_error());
-                                $find = false;
                                 $retval = mysqli_query($dbc, $sql);
+                                $count = mysqli_num_rows($retval);
                                 while ($row = mysqli_fetch_array($retval)) {
-                                    if ($key == $row['tag']) {
-                                        $find = true;
-                                        $count = $count + 1;
                                         $des = substr($row['description'], 0, 12);
                                         $name = substr($row['good_name'],0,10);
                                         $super = substr($row['supermarket'],0,12);
@@ -277,10 +267,9 @@
                                                     </div>
                                             </td>";
                                         echo "</tr>";
-                                    }
                                 }
                                 mysqli_close($dbc); // Close the database connection.
-                                if ($find == false) {
+                                if ($count == 0) {
                                     echo "<h2 align='center'> No results found</h2>";
                                     echo "<caption>Your search returned 0 results.";
                                     echo "<img class='figure-img w-25' src='img/sad2.png' align='right'></caption>";
@@ -294,19 +283,15 @@
                             case 'id': {
 
                                 $key = trim($_POST['good_id']);
-                                $count = 0;
                                 //connect to the database
                                 require('mysqli_connect.php');
-
                                 $sql = "SELECT id, good_name, supermarket, price, description,tag, promote FROM goods WHERE id='$key'";
                                 // Make the connection
                                 $dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME) OR die('Could not 
                         connect to MySQL: ' . mysqli_connect_error());
-                                $find = false;
                                 $retval = mysqli_query($dbc, $sql);
-                                while ($row = mysqli_fetch_array($retval)) {
-                                        $find = true;
-                                        $count = $count + 1;
+                                $count = mysqli_num_rows($retval);
+                                if ($row = mysqli_fetch_array($retval)) {
                                         $des = substr($row['description'], 0, 12);
                                         $name = substr($row['good_name'],0,10);
                                         $super = substr($row['supermarket'],0,12);
@@ -337,17 +322,16 @@
                                                     </div>
                                             </td>";
                                         echo "</tr>";
-                                }
-                                mysqli_close($dbc); // Close the database connection.
-                                if ($find == false) {
-                                    echo "<h2 align='center'> No results found</h2>";
-                                    echo "<caption>Your search returned 0 results.";
-                                    echo "<img class='figure-img w-25' src='img/sad2.png' align='right'></caption>";
-                                } else {
                                     echo "<h2 align='center'> Results found</h2>";
                                     echo "<caption>Result: Successfully find $count results.";
                                     echo "<img class='figure-img w-25' src='img/find.jpg' align='right'></caption>";
                                 }
+                                else {
+                                    echo "<h2 align='center'> No results found</h2>";
+                                    echo "<caption>Your search returned 0 results.";
+                                    echo "<img class='figure-img w-25' src='img/sad2.png' align='right'></caption>";
+                                }
+                                mysqli_close($dbc); // Close the database connection.
 
                             }
 
@@ -399,6 +383,14 @@
 <!--tag VARCHAR(100) DEFAULT NULL,-->
 <!--promote INT DEFAULT 0,-->
 <!--PRIMARY KEY ( id )-->
+<!--);-->
+
+<!--create table users (-->
+<!--user_id INT NOT NULL AUTO_INCREMENT,-->
+<!--user_name VARCHAR(30) NOT NULL,-->
+<!--password CHAR(40) NOT NULL,-->
+<!--registration_date DATETIME NOT NULL,-->
+<!--PRIMARY KEY (user_id)-->
 <!--);-->
 
 
