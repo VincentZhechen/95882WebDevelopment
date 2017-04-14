@@ -65,42 +65,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 <div class="tagline-upper text-center text-heading text-shadow text-white mt-4 hidden-md-down">Supply New Goods</div>
 <div class="tagline-lower text-center text-expanded text-shadow text-uppercase text-white mb-4 hidden-md-down">Carnegie Mellon University | Pittursburg, PA 15213 | Vincent & Sue
-        <button class="tagline-lower text-center text-expanded text-shadow text-uppercase text-white mb-4 hidden-md-dow" data-toggle="modal" data-target="#myModal">
-           Log in
-           </button>
 </div>
-    <!-- 模态框（Modal） -->
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-            <div class="modal-body">
-                    <form role="form">
-                        <fieldset>
-                            <h2> Please sign in </h2>
-                            <hr class="colorgraph">
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Username or Email</label>
-                                <input type="email" name="email" id="email" class="form-control input-lg" placeholder="Email Address">
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputPassword1">Password </label>
-                                <input type="password" name="password" id="password" class="form-control input-lg" placeholder="Password">
-                            </div>
-                            <hr class="colorgraph">
-                            <div class="row">
-                                <div class="col-xs-6 col-sm-6 col-md-6">
-                                    <input type="submit" class="btn btn-lg btn-success btn-block" value="Sign In">
-                                </div>
-                                <div class="col-xs-6 col-sm-6 col-md-6">
-                                    <a href="" class="btn btn-lg btn-primary btn-block">Register</a>
-                                </div>
-                            </div>
-                        </fieldset>
-                    </form>
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal -->
-    </div>
+
     
 <!-- Navigation -->
 <nav class="navbar navbar-toggleable-md navbar-light navbar-custom bg-faded py-lg-4">

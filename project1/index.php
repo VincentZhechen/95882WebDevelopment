@@ -38,51 +38,35 @@
         }
     </style>
 
+    <script>
+        var blink = "business.php";
+        var clink = "customerEmpty.php";
+
+        function activateVisitor()
+        {
+            document.getElementById("loginref").innerHTML = "visitor";
+            activateLink();
+        }
+
+        function activateLink()
+        {
+            document.getElementById("businesslink").href = blink;
+            document.getElementById("customerlink").href = clink;
+
+        }
+
+    </script>
+
+
 </head>
 
 <body>
 
     <div class="tagline-upper text-center text-heading text-shadow text-white mt-4 hidden-md-down">SUPPER MATT</div>
-    <div class="tagline-lower text-center text-expanded text-shadow text-uppercase text-white mb-4 hidden-md-down">Carnegie Mellon University | Pittursburg, PA 15213 | Vincent & Sue                    
-        <!-- Button trigger modal -->
-        <!-- 按钮触发模态框 -->
-        <button class="tagline-lower text-center text-expanded text-shadow text-uppercase text-white mb-4 hidden-md-dow" data-toggle="modal" data-target="#myModal">
-           Log in
-       </button>
+    <div class="tagline-lower text-center text-expanded text-shadow text-uppercase text-white mb-4 hidden-md-down">Carnegie Mellon University | Pittursburg, PA 15213 | Vincent & Sue
+    </div>
 
-    </div>
-    <!-- 模态框（Modal） -->
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-            <div class="modal-body">
-                    <form role="form">
-                        <fieldset>
-                            <h2> Please sign in </h2>
-                            <hr class="colorgraph">
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Username or Email</label>
-                                <input type="email" name="email" id="email" class="form-control input-lg" placeholder="Email Address">
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputPassword1">Password </label>
-                                <input type="password" name="password" id="password" class="form-control input-lg" placeholder="Password">
-                            </div>
-                            <hr class="colorgraph">
-                            <div class="row">
-                                <div class="col-xs-6 col-sm-6 col-md-6">
-                                    <input type="submit" class="btn btn-lg btn-success btn-block" value="Sign In">
-                                </div>
-                                <div class="col-xs-6 col-sm-6 col-md-6">
-                                    <a href="" class="btn btn-lg btn-primary btn-block">Register</a>
-                                </div>
-                            </div>
-                        </fieldset>
-                    </form>
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal -->
-    </div>
+
     
 
     <!-- Navigation -->
@@ -95,11 +79,55 @@
             <div class="collapse navbar-collapse" id="navbarExample">
                 <ul class="navbar-nav mx-auto">
                     <li class="nav-item active px-lg-4">
-                        <a class="nav-link text-uppercase text-expanded" href="customerEmpty.php">Customer Search <span class="sr-only">(current)</span></a>
+                        <a class="nav-link text-uppercase text-expanded" id="customerlink" >Customer Search <span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item px-lg-4">
-                        <a class="nav-link text-uppercase text-expanded" href="business.php">Business Supply</a>
+                        <a class="nav-link text-uppercase text-expanded" id="businesslink">Business Supply</a>
 
+                    </li>
+                    <li class="nav-item px-lg-4">
+                        <!-- Button trigger modal -->
+                        <!-- 按钮触发模态框 -->
+                        <a class="nav-link text-uppercase text-expanded" href="" data-toggle="modal" data-target="#myModal"  id="loginref">
+                            Log in
+                        </a>
+                        <!-- 模态框（Modal） -->
+                        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-body">
+                                        <form role="form">
+                                            <fieldset>
+                                                <h2> Please sign in </h2>
+                                                <hr class="colorgraph">
+                                                <div class="form-group">
+                                                    <label for="exampleInputEmail1">Username or Email</label>
+                                                    <input type="email" name="email" id="email" class="form-control input-lg" placeholder="Email Address">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="exampleInputPassword1">Password </label>
+                                                    <input type="password" name="password" id="password" class="form-control input-lg" placeholder="Password">
+                                                </div>
+                                                <hr class="colorgraph">
+                                                <div class="row">
+                                                    <div class="col-xs-4 col-sm-4 col-md-4">
+                                                        <a href="" class="btn btn-lg btn-success btn-block">Sign In</a>
+                                                    </div>
+                                                    <div class="col-xs-4 col-sm-4 col-md-4">
+                                                        <a href="" class="btn btn-lg btn-primary btn-block">Register</a>
+                                                    </div>
+                                                    <div class="col-xs-4 col-sm-4 col-md-4">
+                                                        <a href="javascript:void(0);"  type = "button" class="btn btn-lg btn-info btn-block"
+                                                           data-dismiss="modal" onclick="activateVisitor()">Visitor</a>
+                                                    </div>
+                                                </div>
+
+                                            </fieldset>
+                                        </form>
+                                    </div>
+                                </div><!-- /.modal-content -->
+                            </div><!-- /.modal -->
+                        </div>
                     </li>
                 </ul>
             </div>
