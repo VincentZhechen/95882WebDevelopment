@@ -1,7 +1,10 @@
+<?php
+session_start();
+?>
+
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
 
     <meta charset="utf-8">
@@ -56,10 +59,13 @@
         <div class="collapse navbar-collapse" id="navbarExample">
             <ul class="navbar-nav mx-auto">
                 <li class="nav-item px-lg-4">
-                    <a class="nav-link text-uppercase text-expanded" href="index.php">Home <span class="sr-only">(current)</span></a>
+                    <a class="nav-link text-uppercase text-expanded" href="business.php">BusinessPage <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item px-lg-4">
-                    <a class="nav-link text-uppercase text-expanded" href="business.php">Business Page</a>
+                    <a class="nav-link text-uppercase text-expanded">Favorite</a>
+                </li>
+                <li class="nav-item px-lg-4">
+                    <a class="nav-link text-uppercase text-expanded"><?php echo $_SESSION['user'];?></a>
                 </li>
             </ul>
         </div>

@@ -1,3 +1,7 @@
+<?php
+session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -47,12 +51,17 @@
             document.getElementById("loginref").innerHTML = accountname;
             activateLink();
             disablelogin();
+
         }
 
         function activateVisitor()
         {
             document.getElementById("loginref").innerHTML = 'Visitor';
             activateLink();
+            <?php
+            $_SESSION['user']='Visitor';
+            ?>
+
         }
 
         function activateLink()
@@ -233,9 +242,11 @@
             if ($row = mysqli_fetch_array($retval)) {
                 if ($row['password']==$pass) {
                     $valid = true;
+                    $_SESSION['user']= $name;
                     echo "<script> alert('Welcome back: ' + '$name')</script>";
                     echo "<script>activateAccount('$name')</script>";
                     echo "<script></script>";
+
                 } else {
                     echo "<script> alert('Your password is not correct');</script>";
                 }
@@ -260,6 +271,7 @@
             $sql = "INSERT INTO users(user_name, password, registration_date) VALUES ('$name', '$pass', now());";
             $retval = mysqli_query($dbc, $sql);
             if ($retval) {
+                $_SESSION['user']= $name;
                 echo "<script> alert('Welcome to our system, new friend: ' + '$name')</script>";
                 echo "<script>activateAccount('$name')</script>";
                 return;

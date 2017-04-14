@@ -78,10 +78,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <div class="collapse navbar-collapse" id="navbarExample">
             <ul class="navbar-nav mx-auto">
                 <li class="nav-item px-lg-4">
-                    <a class="nav-link text-uppercase text-expanded" href="index.php">Home <span class="sr-only">(current)</span></a>
+                    <a class="nav-link text-uppercase text-expanded" href="customerEmpty.php">Search <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item px-lg-4">
-                    <a class="nav-link text-uppercase text-expanded" href="customerEmpty.php">Search</a>
+                    <a class="nav-link text-uppercase text-expanded" href="">Something</a>
+                </li>
+                <li class="nav-item px-lg-4">
+                    <a class="nav-link text-uppercase text-expanded" href="">..</a>
                 </li>
             </ul>
         </div>
