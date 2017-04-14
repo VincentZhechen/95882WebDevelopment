@@ -5,7 +5,7 @@
  * Date: 2017/4/13
  * Time: 14:28
  */
-
+session_start();
 require('mysqli_connect.php');
 $dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME) OR die('Could not 
                         connect to MySQL: ' . mysqli_connect_error());
@@ -26,8 +26,40 @@ if (isset($_POST['vote'])){
 }
 
 if (isset($_POST['mark'])) {
+    if ($_SESSION['user'] == 'Visitor') {
+        return;
+    }
+    $account = $_SESSION['user'];
     $ID = $_POST['mark'];
-    echo 'mark';
+    $sql="SELECT good_name, supermarket, price, description FROM goods WHERE id='$ID'";
+    $retval = mysqli_query($dbc, $sql);
+    $row = mysqli_fetch_array($retval);
+    if ($row) {
+        $name = $row['good_name'];
+        $supermarket = $row['supermarket'];
+        $price = $row['price'];
+        $description = $row['description'];
+        $sql = "SELECT user_account FROM privatelike WHERE good_id='$ID'";
+        $retval = mysqli_query($dbc, $sql);
+        $marked = false;
+        while ($row2 = mysqli_fetch_array($retval)) {
+            if ($row2['user_account'] == $account ) {
+                $marked = true;
+            }
+        }
+        if ($marked == false) {
+            $sql = "INSERT INTO privatelike(good_id, good_name, supermarket, price, description, user_account ) 
+                      VALUES ('$ID', '$name', '$supermarket', '$price', '$description','$account');";
+            $retval = mysqli_query($dbc, $sql);
+            if ($retval) {
+                echo "<script> alert('success mark')</script>";
+            } else {
+                echo "<script> alert('error mark')</script>";
+            }
+
+        }
+    }
+    mysqli_close($dbc);
 }
 
 if (isset($_POST['tag'])){

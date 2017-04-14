@@ -91,7 +91,64 @@ session_start();
                     <a class="nav-link text-uppercase text-expanded" href="business.php">Business Page <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item px-lg-4">
-                    <a class="nav-link text-uppercase text-expanded" href="">Favorite</a>
+                    <a class="nav-link text-uppercase text-expanded" data-toggle="modal" data-target="#myModal1">Favorite</a>
+                    <div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title" id="myModalLabel">
+                                        <?php echo $_SESSION['user'].' Personal Mark';?>
+                                    </h4>
+                                </div>
+                                <div class="modal-body">
+                                    <table class="table table-hover">
+                                        <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Name</th>
+                                            <th>Supermarket</th>
+                                            <th>Price</th>
+                                            <th>Description</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <?php
+                                        require('mysqli_connect.php');
+                                        $account = $_SESSION['user'];
+                                        $sql = "SELECT good_id, good_name, supermarket, price, description FROM privatelike WHERE 
+                                           user_account ='$account'";
+                                        // Make the connection
+                                        $dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME) OR die('Could not
+                        connect to MySQL: ' . mysqli_connect_error());
+                                        $retval = mysqli_query($dbc, $sql);
+                                        while ($row = mysqli_fetch_array($retval)) {
+                                            $des = substr($row['description'], 0, 12);
+                                            $name = substr($row['good_name'],0,10);
+                                            $super = substr($row['supermarket'],0,12);
+                                            $price = substr($row['price'],0,8);
+                                            echo "<tr>";
+                                            echo "<td>{$row['good_id']}";
+                                            echo "<td>$name</td>";
+                                            echo "<td>$super</td>";
+                                            echo "<td>$price</td>";
+                                            echo "<td>$des</td>";
+                                            echo "</tr>";
+                                        }
+                                        mysqli_close($dbc); // Close the database connection.
+
+                                        ?>
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary" data-dismiss="modal">Confirm
+                                    </button>
+                                </div>
+                            </div><!-- /.modal-content -->
+                        </div><!-- /.modal -->
+                    </div>
+
                 </li>
                 <li class="nav-item px-lg-4">
                     <a class="nav-link text-uppercase text-expanded"><?php echo $_SESSION['user'];?></a>
@@ -169,12 +226,12 @@ session_start();
                             case 'name': {
                                 $key = trim($_POST['good_name']);
                                 //connect to the database
-                                require('mysqli_connect.php');
+//                                require('mysqli_connect.php');
 
                                 $sql = "SELECT id, good_name, supermarket, price, description,tag, promote FROM goods WHERE 
                                         good_name = '$key'ORDER BY promote DESC, price ASC";
                                 // Make the connection
-                                $dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME) OR die('Could not 
+                                $dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME) OR die('Could not
                         connect to MySQL: ' . mysqli_connect_error());
                                 $retval = mysqli_query($dbc, $sql);
                                 $count = mysqli_num_rows($retval);
@@ -226,7 +283,7 @@ session_start();
                             case 'type': {
                                 $key = trim($_POST['good_type']);
                                 //connect to the database
-                                require('mysqli_connect.php');
+//                                require('mysqli_connect.php');
                                 $sql = "SELECT id, good_name, supermarket, price, description,tag, promote FROM goods
                                         WHERE tag LIKE '$key'ORDER BY promote DESC, price ASC";
                                 // Make the connection
@@ -283,7 +340,7 @@ session_start();
 
                                 $key = trim($_POST['good_id']);
                                 //connect to the database
-                                require('mysqli_connect.php');
+//                                require('mysqli_connect.php');
                                 $sql = "SELECT id, good_name, supermarket, price, description,tag, promote FROM goods WHERE id='$key'";
                                 // Make the connection
                                 $dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME) OR die('Could not 
@@ -365,23 +422,6 @@ session_start();
 </html>
 
 
-<!--create table goods(-->
-<!--id INT NOT NULL AUTO_INCREMENT,-->
-<!--good_name VARCHAR(100) NOT NULL,-->
-<!--supermarket VARCHAR(100) NOT NULL,-->
-<!--price DOUBLE NOT NULL,-->
-<!--description VARCHAR(255),-->
-<!--tag VARCHAR(100) DEFAULT NULL,-->
-<!--promote INT DEFAULT 0,-->
-<!--PRIMARY KEY ( id )-->
-<!--);-->
 
-<!--create table users (-->
-<!--user_id INT NOT NULL AUTO_INCREMENT,-->
-<!--user_name VARCHAR(30) NOT NULL,-->
-<!--password CHAR(40) NOT NULL,-->
-<!--registration_date DATETIME NOT NULL,-->
-<!--PRIMARY KEY (user_id)-->
-<!--);-->
 
 
