@@ -51,7 +51,6 @@ session_start();
             document.getElementById("loginref").innerHTML = accountname;
             activateLink();
             disablelogin();
-
         }
 
         function activateVisitor()
@@ -61,14 +60,12 @@ session_start();
             <?php
             $_SESSION['user']='Visitor';
             ?>
-
         }
 
         function activateLink()
         {
             document.getElementById("businesslink").href = blink;
             document.getElementById("customerlink").href = clink;
-
         }
 
         function disablelogin()
