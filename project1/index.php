@@ -42,9 +42,16 @@
         var blink = "business.php";
         var clink = "customerEmpty.php";
 
+        function activateAccount(accountname)
+        {
+            document.getElementById("loginref").innerHTML = accountname;
+            activateLink();
+            disablelogin();
+        }
+
         function activateVisitor()
         {
-            document.getElementById("loginref").innerHTML = "visitor";
+            document.getElementById("loginref").innerHTML = 'Visitor';
             activateLink();
         }
 
@@ -54,6 +61,13 @@
             document.getElementById("customerlink").href = clink;
 
         }
+
+        function disablelogin()
+        {
+            document.getElementById("loginref").removeAttribute("href");
+            document.getElementById("loginref").removeAttribute("data-target");
+        }
+
 
     </script>
 
@@ -96,25 +110,27 @@
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-body">
-                                        <form role="form">
+                                        <form action="index.php" method="post">
                                             <fieldset>
                                                 <h2> Please sign in </h2>
                                                 <hr class="colorgraph">
                                                 <div class="form-group">
-                                                    <label for="exampleInputEmail1">Username or Email</label>
-                                                    <input type="email" name="email" id="email" class="form-control input-lg" placeholder="Email Address">
+                                                    <label for="exampleInputEmail1">Username</label>
+                                                    <input type="text" name="username" id="username" class="form-control input-lg" placeholder="User Name"
+                                                           required="required">
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="exampleInputPassword1">Password </label>
-                                                    <input type="password" name="password" id="password" class="form-control input-lg" placeholder="Password">
+                                                    <input type="password" name="password" id="password" class="form-control input-lg" placeholder="Password"
+                                                           required="required">
                                                 </div>
                                                 <hr class="colorgraph">
                                                 <div class="row">
                                                     <div class="col-xs-4 col-sm-4 col-md-4">
-                                                        <a href="" class="btn btn-lg btn-success btn-block">Sign In</a>
+                                                        <button type="submit" name="sign" value="signin" class="btn btn-lg btn-success btn-block">Sign In</button>
                                                     </div>
                                                     <div class="col-xs-4 col-sm-4 col-md-4">
-                                                        <a href="" class="btn btn-lg btn-primary btn-block">Register</a>
+                                                        <button type="submit" name="sign" value="register" class="btn btn-lg btn-primary btn-block">Register</button>
                                                     </div>
                                                     <div class="col-xs-4 col-sm-4 col-md-4">
                                                         <a href="javascript:void(0);"  type = "button" class="btn btn-lg btn-info btn-block"
@@ -202,6 +218,61 @@
     <script src="vendor/tether/tether.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
 
+    <?php
+    switch ($_POST['sign']) {
+        case 'signin': {
+            $name = $_POST['username'];
+            $pass = $_POST['password'];
+
+            require('mysqli_connect.php');
+
+            $sql = "SELECT password FROM users WHERE user_name = '$name'";
+            $dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME) OR die('Could not 
+                        connect to MySQL: ' . mysqli_connect_error());
+            $retval = mysqli_query($dbc, $sql);
+            if ($row = mysqli_fetch_array($retval)) {
+                if ($row['password']==$pass) {
+                    $valid = true;
+                    echo "<script> alert('Welcome back: ' + '$name')</script>";
+                    echo "<script>activateAccount('$name')</script>";
+                    echo "<script></script>";
+                } else {
+                    echo "<script> alert('Your password is not correct');</script>";
+                }
+                return;
+            }
+                echo "<script> alert('Your account does not exist');</script>";
+            break;
+        }
+
+        case 'register': {
+            $name = $_POST['username'];
+            $pass = $_POST['password'];
+            require('mysqli_connect.php');
+            $sql = "SELECT password FROM users WHERE user_name = '$name'";
+            $dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME) OR die('Could not 
+                        connect to MySQL: ' . mysqli_connect_error());
+            $retval = mysqli_query($dbc, $sql);
+            if ($row = mysqli_fetch_array($retval)) {
+                echo "<script> alert('Sorry, this username: ' + '$name' + ' already exists.')</script>";
+                return;
+            }
+            $sql = "INSERT INTO users(user_name, password, registration_date) VALUES ('$name', '$pass', now());";
+            $retval = mysqli_query($dbc, $sql);
+            if ($retval) {
+                echo "<script> alert('Welcome to our system, new friend: ' + '$name')</script>";
+                echo "<script>activateAccount('$name')</script>";
+                return;
+            } else {
+                echo "<script> alert('Error')</script>";
+            }
+            break;
+        }
+    }
+    ?>
+
 </body>
 
 </html>
+
+
