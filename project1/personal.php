@@ -1,5 +1,6 @@
 <?php
 session_start();
+error_reporting(0);
 ?>
 
 <!DOCTYPE html>
@@ -100,7 +101,6 @@ session_start();
                                             }
                                         }
                                         mysqli_close($dbc); // Close the database connection.
-                                        echo "<caption>You have not add any friends.</caption>";
                                         ?>
                                         </tbody>
                                     </table>
@@ -108,7 +108,7 @@ session_start();
                                 </div>
                                 <div class="modal-footer">
                                     <div>
-                                        <button type="button" class="btn btn-primary">confirm</button>
+                                        <button type="button" class="btn btn-primary" data-dismiss="modal">confirm</button>
                                     </div>
                                 </div>
                             </div><!-- /.modal-content -->
@@ -273,12 +273,29 @@ session_start();
             <form action = "personal.php" method="post">
                 <div class="col-lg-8">
                     <?php
-                        echo "<h2 class='text-uppercase' align='right'>";
-                        echo "{$_SESSION['user']}";
+                        echo "<h2 class='text-uppercase text-expanded'>";
+                        echo "Name.{$_SESSION['user']}";
                         echo "</h2>";
+
+                        $account = $_SESSION['user'];
+                        $sql = "SELECT gender FROM users WHERE user_name ='$account'";
+                        // Make the connection
+                        $dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME) OR die('Could not
+                        connect to MySQL: ' . mysqli_connect_error());
+                        $retval = mysqli_query($dbc, $sql);
+                        if ($row = mysqli_fetch_array($retval)) {
+                            if ($row['gender'] == 'male') {
+                                echo "<img class=\"img-fluid\" src=\"img/boy.png\"align = \"right\"><!--PROFILE IMAGE-->";
+                            } else if ($row['gender' == 'female']) {
+                                echo "<img class=\"img-fluid\" src=\"img/girl.jpg\"align = \"right\"><!--PROFILE IMAGE-->";
+                            }
+                        } else {
+                            echo "<img class=\"img-fluid\" src=\"img/other.jpg\"align = \"right\"><!--PROFILE IMAGE-->";
+                        }
+                        mysqli_close($dbc); // Close the database connection.
                     ?>
 
-                    <img class="img-fluid" src="img/profile-thum.png"align = "right"><!--PROFILE IMAGE-->
+
                     <h3 align="right">SuperMatt&nbsp;Membership</h3>
                 </div><!--/#namecard-->
 
@@ -297,7 +314,11 @@ session_start();
                         $count = mysqli_num_rows($retval);
                         echo  "<li><span>Favorite:&nbsp;</span>";
                         echo "$count </li>";
-                        echo "<li><span>Friends:&nbsp;0</span></li>";
+                        $sql = "SELECT user2 FROM friendship WHERE user1='$user'";
+                        $retval = mysqli_query($dbc, $sql);
+                        $count = mysqli_num_rows($retval);
+                        echo "<li><span>Friends:&nbsp;</span>";
+                        echo "$count </li>";
                         $sql = "SELECT registration_date FROM users WHERE user_name ='$user'";
                         $retval = mysqli_query($dbc, $sql);
                         if ($row = mysqli_fetch_array($retval)) {
@@ -389,25 +410,6 @@ session_start();
             $retval = mysqli_query($dbc, $sql);
         }
     }
-
-    if ($_POST['addfriend']) {
-
-
-    }
-
-    if ($_POST['invite']) {
-        $emailaddress = $_POST['emailinvite'];
-        if (strlen($emailaddress)==0) {
-            echo "<script> alert('Your need to input a email');</script>";
-            return;
-        }
-        echo "<script> alert('An invitation email has been sent to: ". $emailaddress." thank you!');</script>";
-
-
-    }
-
-
-
 
 
 
