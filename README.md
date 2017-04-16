@@ -19,6 +19,9 @@ user_id INT NOT NULL AUTO_INCREMENT,
 user_name VARCHAR(30) NOT NULL,
 password CHAR(40) NOT NULL,
 registration_date DATETIME NOT NULL,
+gender CHAR(10), 
+birthday DATETIME,
+motto VARCHAR(100),
 PRIMARY KEY (user_id)
 );
 
@@ -29,4 +32,12 @@ supermarket VARCHAR(100) NOT NULL,
 price DOUBLE NOT NULL,
 description VARCHAR(255),
 user_account VARCHAR(100) NOT NULL
-)
+);
+
+create table friendship (
+relation_id INT NOT NULL,
+user1 VARCHAR(30) NOT NULL,
+user2 VARCHAR(30) NOT NULL,
+start_time DATETIME NOT NULL,
+PRIMARY KEY (relation_id)
+);

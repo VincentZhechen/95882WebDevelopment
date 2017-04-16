@@ -73,33 +73,34 @@ session_start();
                                         <thead>
                                         <tr>
                                             <th>Name</th>
-                                            <th>ID</th>
-                                            <th>Join&nbsp;Time</th>
+                                            <th>Gender</th>
+                                            <th>Motto</th>
                                         </tr>
                                         </thead>
                                         <tbody>
                                         <?php
                                         require('mysqli_connect.php');
                                         $account = $_SESSION['user'];
-                                        $sql = "SELECT good_id, good_name, supermarket, price, description FROM privatelike WHERE 
-                                           user_account ='$account'";
+                                        $sql = "SELECT user2 FROM friendship WHERE user1 ='$account'";
                                         // Make the connection
                                         $dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME) OR die('Could not
                         connect to MySQL: ' . mysqli_connect_error());
                                         $retval = mysqli_query($dbc, $sql);
+                                        $count = mysqli_num_rows($retval);
                                         while ($row = mysqli_fetch_array($retval)) {
-                                            $des = substr($row['description'], 0, 12);
-                                            $name = substr($row['good_name'],0,10);
-                                            $super = substr($row['supermarket'],0,12);
-                                            $price = substr($row['price'],0,8);
-                                            echo "<tr>";
-                                            echo "<td>$name</td>";
-                                            echo "<td>{$row['good_id']}</td>";
-                                            echo "<td>$super</td>";
-                                            echo "</tr>";
+                                            $friend = $row['user2'];
+                                            $sql2 = "SELECT gender, motto FROM users WHERE user_name ='$friend'";
+                                            $retval2 = mysqli_query($dbc, $sql2);
+                                            if ($row2 = mysqli_fetch_array($retval2)) {
+                                                echo "<tr>";
+                                                echo "<td>$friend</td>";
+                                                echo "<td>{$row2['gender']}</td>";
+                                                echo "<td>{$row2['motto']}</td>";
+                                                echo "</tr>";
+                                            }
                                         }
                                         mysqli_close($dbc); // Close the database connection.
-
+                                        echo "<caption>You have not add any friends.</caption>";
                                         ?>
                                         </tbody>
                                     </table>
@@ -107,7 +108,7 @@ session_start();
                                 </div>
                                 <div class="modal-footer">
                                     <div>
-                                        <button type="submit" name="sign" value="register" class="btn btn-primary">Search</button>
+                                        <button type="button" class="btn btn-primary">confirm</button>
                                     </div>
                                 </div>
                             </div><!-- /.modal-content -->
@@ -172,7 +173,6 @@ session_start();
                             </div><!-- /.modal-content -->
                         </div><!-- /.modal -->
                     </div>
-
                 </li>
                 <li class="nav-item px-lg-4">
                     <!-- Button trigger modal -->
@@ -215,6 +215,45 @@ session_start();
                         </div><!-- /.modal -->
                     </div>
                 </li>
+                <li class="nav-item px-lg-4">
+                    <!-- Button trigger modal -->
+                    <!-- 按钮触发模态框 -->
+                    <a class="nav-link text-uppercase text-expanded" href="" data-toggle="modal" data-target="#myModal4"  id="loginref">
+                        Find&Invite
+                    </a>
+                    <!-- 模态框（Modal） -->
+                    <div class="modal fade" id="myModal4" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-body">
+                                    <iframe name="vota" style="display:none;"></iframe>
+                                    <form action="InviteAndAdd.php" method="post" target="vota">
+                                        <fieldset>
+                                            <h2> Find your friends or invite!</h2>
+                                            <hr class="colorgraph">
+                                            <div class="form-group">
+                                                <label>Add a new friend</label>
+                                                <div class="row col-lg-12">
+                                                    <input type="text" name="friendname" class="form-control input-lg col-sm-10" placeholder="Trump" align="center">
+                                                    <button type="submit" name="addfriend" value="addfriend" class="btn btn-info">Add</button>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label">Invite a new friend </label>
+                                                <div class="row col-lg-12">
+                                                    <input type="email" name="emailinvite" class="form-control input-lg col-sm-10" placeholder="Email@outlook.com">
+                                                    <button type="submit" name="invite" value="invitefriend" class="btn btn-info">Send</button>
+                                                </div>
+                                            </div>
+
+                                        </fieldset>
+                                    </form>
+                                </div>
+                            </div><!-- /.modal-content -->
+                        </div><!-- /.modal -->
+                    </div>
+                </li>
+
             </ul>
         </div>
     </div>
@@ -349,6 +388,22 @@ session_start();
             $sql = "UPDATE users SET motto='$mot'WHERE user_name='$user'";
             $retval = mysqli_query($dbc, $sql);
         }
+    }
+
+    if ($_POST['addfriend']) {
+
+
+    }
+
+    if ($_POST['invite']) {
+        $emailaddress = $_POST['emailinvite'];
+        if (strlen($emailaddress)==0) {
+            echo "<script> alert('Your need to input a email');</script>";
+            return;
+        }
+        echo "<script> alert('An invitation email has been sent to: ". $emailaddress." thank you!');</script>";
+
+
     }
 
 
