@@ -151,7 +151,7 @@ session_start();
 
                 </li>
                 <li class="nav-item px-lg-4">
-                    <a class="nav-link text-uppercase text-expanded"><?php echo $_SESSION['user'];?></a>
+                    <a class="nav-link text-uppercase text-expanded" href="personal.php"><?php echo $_SESSION['user'];?></a>
                 </li>
             </ul>
         </div>
