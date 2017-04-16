@@ -147,37 +147,37 @@
       <file leaf-file-name="personal.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/personal.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-170">
-              <caret line="110" column="106" lean-forward="false" selection-start-line="110" selection-start-column="106" selection-end-line="110" selection-end-column="106" />
+            <state relative-caret-position="414">
+              <caret line="291" column="124" lean-forward="false" selection-start-line="291" selection-start-column="124" selection-end-line="291" selection-end-column="124" />
               <folding>
                 <element signature="e#10839#10845#0#HTML" expanded="true" />
                 <element signature="e#10965#10971#0#HTML" expanded="true" />
                 <element signature="n#style#0;n#iframe#0;n#div#0;n#div#0;n#div#0;n#div#0;n#li#4;n#ul#0;n#div#0;n#div#0;n#nav#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="e#17016#17022#0#HTML" expanded="true" />
-                <marker date="1492377564482" expanded="true" signature="3902:3954" ph="SELECT good_... privatelike" />
-                <marker date="1492377564482" expanded="true" signature="4569:4627" ph="SELECT gende... friendship" />
-                <marker date="1492377564482" expanded="true" signature="7537:7687" ph="SELECT good_... privatelike" />
-                <marker date="1492377564482" expanded="true" signature="15877:15929" ph="SELECT good_... privatelike" />
-                <marker date="1492377564482" expanded="false" signature="17099:17167" ph="..." />
-                <marker date="1492377564482" expanded="true" signature="17528:17565" ph="SELECT good_... privatelike" />
-                <marker date="1492377564482" expanded="true" signature="17528:17586" ph="SELECT good_... privatelike" />
-                <marker date="1492377564482" expanded="true" signature="17758:17764" ph=" " />
-                <marker date="1492377564482" expanded="true" signature="17851:17899" ph="SELECT user2... friendship" />
-                <marker date="1492377564482" expanded="true" signature="18069:18075" ph=" " />
-                <marker date="1492377564482" expanded="true" signature="18162:18222" ph="SELECT regis... users" />
-                <marker date="1492377564482" expanded="true" signature="18408:18414" ph=" " />
-                <marker date="1492377564482" expanded="true" signature="18724:20835" ph="..." />
-                <marker date="1492377564482" expanded="true" signature="18914:19276" ph="..." />
-                <marker date="1492377564482" expanded="true" signature="18943:19243" ph="..." />
-                <marker date="1492377564482" expanded="true" signature="19308:19370" ph="..." />
-                <marker date="1492377564482" expanded="true" signature="19372:19440" ph="SELECT good_... privatelike" />
-                <marker date="1492377564482" expanded="true" signature="19372:19445" ph="SELECT good_... goods" />
-                <marker date="1492377564482" expanded="true" signature="19372:19467" ph="SELECT promo... goods" />
-                <marker date="1492377564482" expanded="true" signature="21138:21196" ph="SELECT good_... privatelike" />
-                <marker date="1492377564482" expanded="true" signature="21343:21399" ph="UPDATE users... " />
-                <marker date="1492377564482" expanded="true" signature="21349:21399" ph="SELECT good_... privatelike" />
-                <marker date="1492377564482" expanded="true" signature="21562:21618" ph="UPDATE users... " />
-                <marker date="1492377564482" expanded="true" signature="21773:21825" ph="UPDATE users... " />
+                <element signature="e#17178#17184#0#HTML" expanded="true" />
+                <marker date="1492377991704" expanded="true" signature="3902:3954" ph="SELECT good_... privatelike" />
+                <marker date="1492377991704" expanded="true" signature="4569:4627" ph="SELECT gende... friendship" />
+                <marker date="1492377991704" expanded="true" signature="7537:7687" ph="SELECT good_... privatelike" />
+                <marker date="1492377991704" expanded="true" signature="15877:15929" ph="SELECT good_... privatelike" />
+                <marker date="1492377991704" expanded="false" signature="17261:17329" ph="..." />
+                <marker date="1492377991704" expanded="true" signature="17690:17727" ph="SELECT good_... privatelike" />
+                <marker date="1492377991704" expanded="true" signature="17690:17748" ph="SELECT good_... privatelike" />
+                <marker date="1492377991704" expanded="true" signature="17920:17926" ph=" " />
+                <marker date="1492377991704" expanded="true" signature="18013:18061" ph="SELECT user2... friendship" />
+                <marker date="1492377991704" expanded="true" signature="18231:18237" ph=" " />
+                <marker date="1492377991704" expanded="true" signature="18324:18384" ph="SELECT regis... users" />
+                <marker date="1492377991704" expanded="true" signature="18570:18576" ph=" " />
+                <marker date="1492377991704" expanded="true" signature="18886:20997" ph="..." />
+                <marker date="1492377991704" expanded="true" signature="19076:19438" ph="..." />
+                <marker date="1492377991704" expanded="true" signature="19105:19405" ph="..." />
+                <marker date="1492377991704" expanded="true" signature="19470:19532" ph="..." />
+                <marker date="1492377991704" expanded="true" signature="19534:19602" ph="SELECT good_... privatelike" />
+                <marker date="1492377991704" expanded="true" signature="19534:19607" ph="SELECT good_... goods" />
+                <marker date="1492377991704" expanded="true" signature="19534:19629" ph="SELECT promo... goods" />
+                <marker date="1492377991704" expanded="true" signature="21300:21358" ph="SELECT good_... privatelike" />
+                <marker date="1492377991704" expanded="true" signature="21505:21561" ph="UPDATE users... " />
+                <marker date="1492377991704" expanded="true" signature="21511:21561" ph="SELECT good_... privatelike" />
+                <marker date="1492377991704" expanded="true" signature="21724:21780" ph="UPDATE users... " />
+                <marker date="1492377991704" expanded="true" signature="21935:21987" ph="UPDATE users... " />
               </folding>
             </state>
           </provider>
@@ -485,12 +485,12 @@
       <workItem from="1492120958150" duration="21026000" />
       <workItem from="1492184925583" duration="7310000" />
       <workItem from="1492308528637" duration="8181000" />
-      <workItem from="1492354913870" duration="14004000" />
+      <workItem from="1492354913870" duration="14275000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="132028000" />
+    <option name="totallyTimeSpent" value="132299000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-9" y="-9" width="1938" height="1048" extended-state="6" />
@@ -500,7 +500,7 @@
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.31174535" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1679473" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32491767" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -1251,6 +1251,27 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/mysqli_connect.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="460">
+          <caret line="20" column="0" lean-forward="true" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
+          <folding>
+            <element signature="e#6#83#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/InviteAndAdd.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="520">
+          <caret line="51" column="19" lean-forward="true" selection-start-line="51" selection-start-column="19" selection-end-line="51" selection-end-column="19" />
+          <folding>
+            <marker date="1492375044922" expanded="true" signature="828:878" ph="SELECT user_... users" />
+            <marker date="1492375044922" expanded="true" signature="1101:1150" ph="SELECT user2... friendship" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/customer.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="4232">
@@ -1328,60 +1349,39 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mysqli_connect.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="460">
-          <caret line="20" column="0" lean-forward="true" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
-          <folding>
-            <element signature="e#6#83#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/InviteAndAdd.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="520">
-          <caret line="51" column="19" lean-forward="true" selection-start-line="51" selection-start-column="19" selection-end-line="51" selection-end-column="19" />
-          <folding>
-            <marker date="1492375044922" expanded="true" signature="828:878" ph="SELECT user_... users" />
-            <marker date="1492375044922" expanded="true" signature="1101:1150" ph="SELECT user2... friendship" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/personal.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-170">
-          <caret line="110" column="106" lean-forward="false" selection-start-line="110" selection-start-column="106" selection-end-line="110" selection-end-column="106" />
+        <state relative-caret-position="414">
+          <caret line="291" column="124" lean-forward="false" selection-start-line="291" selection-start-column="124" selection-end-line="291" selection-end-column="124" />
           <folding>
             <element signature="e#10839#10845#0#HTML" expanded="true" />
             <element signature="e#10965#10971#0#HTML" expanded="true" />
             <element signature="n#style#0;n#iframe#0;n#div#0;n#div#0;n#div#0;n#div#0;n#li#4;n#ul#0;n#div#0;n#div#0;n#nav#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="e#17016#17022#0#HTML" expanded="true" />
-            <marker date="1492377564482" expanded="true" signature="3902:3954" ph="SELECT good_... privatelike" />
-            <marker date="1492377564482" expanded="true" signature="4569:4627" ph="SELECT gende... friendship" />
-            <marker date="1492377564482" expanded="true" signature="7537:7687" ph="SELECT good_... privatelike" />
-            <marker date="1492377564482" expanded="true" signature="15877:15929" ph="SELECT good_... privatelike" />
-            <marker date="1492377564482" expanded="false" signature="17099:17167" ph="..." />
-            <marker date="1492377564482" expanded="true" signature="17528:17565" ph="SELECT good_... privatelike" />
-            <marker date="1492377564482" expanded="true" signature="17528:17586" ph="SELECT good_... privatelike" />
-            <marker date="1492377564482" expanded="true" signature="17758:17764" ph=" " />
-            <marker date="1492377564482" expanded="true" signature="17851:17899" ph="SELECT user2... friendship" />
-            <marker date="1492377564482" expanded="true" signature="18069:18075" ph=" " />
-            <marker date="1492377564482" expanded="true" signature="18162:18222" ph="SELECT regis... users" />
-            <marker date="1492377564482" expanded="true" signature="18408:18414" ph=" " />
-            <marker date="1492377564482" expanded="true" signature="18724:20835" ph="..." />
-            <marker date="1492377564482" expanded="true" signature="18914:19276" ph="..." />
-            <marker date="1492377564482" expanded="true" signature="18943:19243" ph="..." />
-            <marker date="1492377564482" expanded="true" signature="19308:19370" ph="..." />
-            <marker date="1492377564482" expanded="true" signature="19372:19440" ph="SELECT good_... privatelike" />
-            <marker date="1492377564482" expanded="true" signature="19372:19445" ph="SELECT good_... goods" />
-            <marker date="1492377564482" expanded="true" signature="19372:19467" ph="SELECT promo... goods" />
-            <marker date="1492377564482" expanded="true" signature="21138:21196" ph="SELECT good_... privatelike" />
-            <marker date="1492377564482" expanded="true" signature="21343:21399" ph="UPDATE users... " />
-            <marker date="1492377564482" expanded="true" signature="21349:21399" ph="SELECT good_... privatelike" />
-            <marker date="1492377564482" expanded="true" signature="21562:21618" ph="UPDATE users... " />
-            <marker date="1492377564482" expanded="true" signature="21773:21825" ph="UPDATE users... " />
+            <element signature="e#17178#17184#0#HTML" expanded="true" />
+            <marker date="1492377991704" expanded="true" signature="3902:3954" ph="SELECT good_... privatelike" />
+            <marker date="1492377991704" expanded="true" signature="4569:4627" ph="SELECT gende... friendship" />
+            <marker date="1492377991704" expanded="true" signature="7537:7687" ph="SELECT good_... privatelike" />
+            <marker date="1492377991704" expanded="true" signature="15877:15929" ph="SELECT good_... privatelike" />
+            <marker date="1492377991704" expanded="false" signature="17261:17329" ph="..." />
+            <marker date="1492377991704" expanded="true" signature="17690:17727" ph="SELECT good_... privatelike" />
+            <marker date="1492377991704" expanded="true" signature="17690:17748" ph="SELECT good_... privatelike" />
+            <marker date="1492377991704" expanded="true" signature="17920:17926" ph=" " />
+            <marker date="1492377991704" expanded="true" signature="18013:18061" ph="SELECT user2... friendship" />
+            <marker date="1492377991704" expanded="true" signature="18231:18237" ph=" " />
+            <marker date="1492377991704" expanded="true" signature="18324:18384" ph="SELECT regis... users" />
+            <marker date="1492377991704" expanded="true" signature="18570:18576" ph=" " />
+            <marker date="1492377991704" expanded="true" signature="18886:20997" ph="..." />
+            <marker date="1492377991704" expanded="true" signature="19076:19438" ph="..." />
+            <marker date="1492377991704" expanded="true" signature="19105:19405" ph="..." />
+            <marker date="1492377991704" expanded="true" signature="19470:19532" ph="..." />
+            <marker date="1492377991704" expanded="true" signature="19534:19602" ph="SELECT good_... privatelike" />
+            <marker date="1492377991704" expanded="true" signature="19534:19607" ph="SELECT good_... goods" />
+            <marker date="1492377991704" expanded="true" signature="19534:19629" ph="SELECT promo... goods" />
+            <marker date="1492377991704" expanded="true" signature="21300:21358" ph="SELECT good_... privatelike" />
+            <marker date="1492377991704" expanded="true" signature="21505:21561" ph="UPDATE users... " />
+            <marker date="1492377991704" expanded="true" signature="21511:21561" ph="SELECT good_... privatelike" />
+            <marker date="1492377991704" expanded="true" signature="21724:21780" ph="UPDATE users... " />
+            <marker date="1492377991704" expanded="true" signature="21935:21987" ph="UPDATE users... " />
           </folding>
         </state>
       </provider>

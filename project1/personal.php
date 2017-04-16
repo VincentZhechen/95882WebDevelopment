@@ -288,6 +288,8 @@ error_reporting(0);
                                 echo "<img class=\"img-fluid\" src=\"img/boy.png\"align = \"right\"><!--PROFILE IMAGE-->";
                             } else if ($row['gender' == 'female']) {
                                 echo "<img class=\"img-fluid\" src=\"img/girl.jpg\"align = \"right\"><!--PROFILE IMAGE-->";
+                            } else {
+                                echo "<img class=\"img-fluid\" src=\"img/other.jpg\"align = \"right\"><!--PROFILE IMAGE-->";
                             }
                         } else {
                             echo "<img class=\"img-fluid\" src=\"img/other.jpg\"align = \"right\"><!--PROFILE IMAGE-->";
