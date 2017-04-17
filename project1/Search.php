@@ -88,70 +88,13 @@ session_start();
         <div class="collapse navbar-collapse" id="navbarExample">
             <ul class="navbar-nav mx-auto">
                 <li class="nav-item px-lg-4">
-                    <a class="nav-link text-uppercase text-expanded" href="business.php">Business Page <span class="sr-only">(current)</span></a>
+                    <a class="nav-link text-uppercase text-expanded"><?php echo $_SESSION['user'];?> <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item px-lg-4">
-                    <a class="nav-link text-uppercase text-expanded" data-toggle="modal" data-target="#myModal1">Favorite</a>
-                    <div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h4 class="modal-title" id="myModalLabel">
-                                        <?php echo $_SESSION['user'].' Personal Mark';?>
-                                    </h4>
-                                </div>
-                                <div class="modal-body">
-                                    <table class="table table-hover">
-                                        <thead>
-                                        <tr>
-                                            <th>ID</th>
-                                            <th>Name</th>
-                                            <th>Supermarket</th>
-                                            <th>Price</th>
-                                            <th>Description</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        <?php
-                                        require('mysqli_connect.php');
-                                        $account = $_SESSION['user'];
-                                        $sql = "SELECT good_id, good_name, supermarket, price, description FROM privatelike WHERE 
-                                           user_account ='$account'";
-                                        // Make the connection
-                                        $dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME) OR die('Could not
-                        connect to MySQL: ' . mysqli_connect_error());
-                                        $retval = mysqli_query($dbc, $sql);
-                                        while ($row = mysqli_fetch_array($retval)) {
-                                            $des = substr($row['description'], 0, 12);
-                                            $name = substr($row['good_name'],0,10);
-                                            $super = substr($row['supermarket'],0,12);
-                                            $price = substr($row['price'],0,8);
-                                            echo "<tr>";
-                                            echo "<td>{$row['good_id']}";
-                                            echo "<td>$name</td>";
-                                            echo "<td>$super</td>";
-                                            echo "<td>$price</td>";
-                                            echo "<td>$des</td>";
-                                            echo "</tr>";
-                                        }
-                                        mysqli_close($dbc); // Close the database connection.
-
-                                        ?>
-                                        </tbody>
-                                    </table>
-
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-primary" data-dismiss="modal">Confirm
-                                    </button>
-                                </div>
-                            </div><!-- /.modal-content -->
-                        </div><!-- /.modal -->
-                    </div>
-
+                    <a class="nav-link text-uppercase text-expanded" href="Personal.php">Personal Page</a>
                 </li>
                 <li class="nav-item px-lg-4">
-                    <a class="nav-link text-uppercase text-expanded" href="personal.php"><?php echo $_SESSION['user'];?></a>
+                    <a class="nav-link text-uppercase text-expanded">..</a>
                 </li>
             </ul>
         </div>
@@ -168,7 +111,7 @@ session_start();
 
 
         <div class="row">
-            <form action = "customer.php" method="post">
+            <form action = "Search.php" method="post">
                 <div class="form-group col-12">
                     <div class="col">
                         <label class="text-heading" >Goods' Name</label>
@@ -204,43 +147,46 @@ session_start();
                 <div class="clearfix"></div>
                 <div class="form-control col-lg-9">
                     <iframe name="vota" style="display:none;"></iframe>
-                    <form action="tag.php" method="post" target="vota">
+                    <form action="SearchBackEnd.php" method="post" target="vota">
 
-                    <table class="table table-striped">
-                        <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Good</th>
-                            <th>Supermarket</th>
-                            <th>Price</th>
-                            <th>Description</th>
-                            <th>Promote</th>
-                                <th>Tag</th>
-                            <th>Action</th>
-                        </tr>
-                        </thead>
-                        <tbody>
+
 
                         <?php
-                        switch ($_REQUEST['subject']) {
-                            case 'name': {
-                                $key = trim($_POST['good_name']);
-                                //connect to the database
-//                                require('mysqli_connect.php');
-
-                                $sql = "SELECT id, good_name, supermarket, price, description,tag, promote FROM goods WHERE 
+                        if (isset($_POST['subject'])) {
+                            require('mysqli_connect.php');
+                            $cout = 0;
+                            switch ($_REQUEST['subject']) {
+                                case 'name': {
+                                    $key = trim($_POST['good_name']);
+                                    $sql = "SELECT id, good_name, supermarket, price, description,tag, promote FROM goods WHERE 
                                         good_name = '$key'ORDER BY promote DESC, price ASC";
-                                // Make the connection
-                                $dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME) OR die('Could not
+                                    // Make the connection
+                                    $dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME) OR die('Could not
                         connect to MySQL: ' . mysqli_connect_error());
-                                $retval = mysqli_query($dbc, $sql);
-                                $count = mysqli_num_rows($retval);
-                                while ($row = mysqli_fetch_array($retval)) {
+                                    $retval = mysqli_query($dbc, $sql);
+                                    $count = mysqli_num_rows($retval);
+                                    if ($count > 0) {
+                                        echo "<table class=\"table table-striped\">
+                                        <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Good</th>
+                                            <th>Supermarket</th>
+                                            <th>Price</th>
+                                            <th>Description</th>
+                                            <th>Promote</th>
+                                                <th>Tag</th>
+                                            <th>Action</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>";
+                                    }
+                                    while ($row = mysqli_fetch_array($retval)) {
                                         $des = substr($row['description'], 0, 12);
-                                        $name = substr($row['good_name'],0,10);
-                                        $super = substr($row['supermarket'],0,12);
-                                        $price = substr($row['price'],0,8);
-                                        $tag = substr($row['tag'],0,12);
+                                        $name = substr($row['good_name'], 0, 10);
+                                        $super = substr($row['supermarket'], 0, 12);
+                                        $price = substr($row['price'], 0, 8);
+                                        $tag = substr($row['tag'], 0, 12);
                                         echo "<tr>";
                                         echo "<td>{$row['id']}";
                                         echo "<td>$name</td>";
@@ -267,36 +213,41 @@ session_start();
                                                     </div>
                                             </td>";
                                         echo "</tr>";
+                                    }
+                                    mysqli_close($dbc); // Close the database connection.
+                                    break;
                                 }
-                                mysqli_close($dbc); // Close the database connection.
-                                if ($count == 0) {
-                                    echo "<h2 align='center'> No results found</h2>";
-                                    echo "<caption>Your search returned 0 results.";
-                                    echo "<img class='figure-img w-25' src='img/sad2.png' align='right'></caption>";
-                                } else {
-                                    echo "<h2 align='center'> Results found</h2>";
-                                    echo "<caption>Result: Successfully find $count results.";
-                                    echo "<img class='figure-img w-25' src='img/find.jpg' align='right'></caption>";
-                                }
-                                break;
-                            }
-                            case 'type': {
-                                $key = trim($_POST['good_type']);
-                                //connect to the database
-//                                require('mysqli_connect.php');
-                                $sql = "SELECT id, good_name, supermarket, price, description,tag, promote FROM goods
+                                case 'type': {
+                                    $key = trim($_POST['good_type']);
+                                    $sql = "SELECT id, good_name, supermarket, price, description,tag, promote FROM goods
                                         WHERE tag LIKE '$key'ORDER BY promote DESC, price ASC";
-                                // Make the connection
-                                $dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME) OR die('Could not 
+                                    // Make the connection
+                                    $dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME) OR die('Could not 
                         connect to MySQL: ' . mysqli_connect_error());
-                                $retval = mysqli_query($dbc, $sql);
-                                $count = mysqli_num_rows($retval);
-                                while ($row = mysqli_fetch_array($retval)) {
+                                    $retval = mysqli_query($dbc, $sql);
+                                    $count = mysqli_num_rows($retval);
+                                    if ($count > 0) {
+                                        echo "<table class=\"table table-striped\">
+                                        <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Good</th>
+                                            <th>Supermarket</th>
+                                            <th>Price</th>
+                                            <th>Description</th>
+                                            <th>Promote</th>
+                                                <th>Tag</th>
+                                            <th>Action</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>";
+                                    }
+                                    while ($row = mysqli_fetch_array($retval)) {
                                         $des = substr($row['description'], 0, 12);
-                                        $name = substr($row['good_name'],0,10);
-                                        $super = substr($row['supermarket'],0,12);
-                                        $price = substr($row['price'],0,8);
-                                        $tag = substr($row['tag'],0,12);
+                                        $name = substr($row['good_name'], 0, 10);
+                                        $super = substr($row['supermarket'], 0, 12);
+                                        $price = substr($row['price'], 0, 8);
+                                        $tag = substr($row['tag'], 0, 12);
                                         echo "<tr>";
                                         echo "<td>{$row['id']}</td>";
                                         echo "<td>$name</td>";
@@ -323,36 +274,38 @@ session_start();
                                                     </div>
                                             </td>";
                                         echo "</tr>";
+                                    }
+                                    mysqli_close($dbc); // Close the database connection.
+                                    break;
                                 }
-                                mysqli_close($dbc); // Close the database connection.
-                                if ($count == 0) {
-                                    echo "<h2 align='center'> No results found</h2>";
-                                    echo "<caption>Your search returned 0 results.";
-                                    echo "<img class='figure-img w-25' src='img/sad2.png' align='right'></caption>";
-                                } else {
-                                    echo "<h2 align='center'> Results found</h2>";
-                                    echo "<caption>Result: Successfully find $count results.";
-                                    echo "<img class='figure-img w-25' src='img/find.jpg' align='right'></caption>";
-                                }
-                                break;
-                            }
-                            case 'id': {
-
-                                $key = trim($_POST['good_id']);
-                                //connect to the database
-//                                require('mysqli_connect.php');
-                                $sql = "SELECT id, good_name, supermarket, price, description,tag, promote FROM goods WHERE id='$key'";
-                                // Make the connection
-                                $dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME) OR die('Could not 
+                                case 'id': {
+                                    $key = trim($_POST['good_id']);
+                                    $sql = "SELECT id, good_name, supermarket, price, description,tag, promote FROM goods WHERE id='$key'";
+                                    // Make the connection
+                                    $dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME) OR die('Could not 
                         connect to MySQL: ' . mysqli_connect_error());
-                                $retval = mysqli_query($dbc, $sql);
-                                $count = mysqli_num_rows($retval);
-                                if ($row = mysqli_fetch_array($retval)) {
+                                    $retval = mysqli_query($dbc, $sql);
+                                    $count = mysqli_num_rows($retval);
+                                    if ($row = mysqli_fetch_array($retval)) {
+                                        echo "<table class=\"table table-striped\">
+                                        <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Good</th>
+                                            <th>Supermarket</th>
+                                            <th>Price</th>
+                                            <th>Description</th>
+                                            <th>Promote</th>
+                                                <th>Tag</th>
+                                            <th>Action</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>";
                                         $des = substr($row['description'], 0, 12);
-                                        $name = substr($row['good_name'],0,10);
-                                        $super = substr($row['supermarket'],0,12);
-                                        $price = substr($row['price'],0,8);
-                                        $tag = substr($row['tag'],0,12);
+                                        $name = substr($row['good_name'], 0, 10);
+                                        $super = substr($row['supermarket'], 0, 12);
+                                        $price = substr($row['price'], 0, 8);
+                                        $tag = substr($row['tag'], 0, 12);
                                         echo "<tr>";
                                         echo "<td>{$row['id']}";
                                         echo "<td>$name</td>";
@@ -379,22 +332,36 @@ session_start();
                                                     </div>
                                             </td>";
                                         echo "</tr>";
-                                    echo "<h2 align='center'> Results found</h2>";
-                                    echo "<caption>Result: Successfully find $count results.";
-                                    echo "<img class='figure-img w-25' src='img/find.jpg' align='right'></caption>";
-                                }
-                                else {
-                                    echo "<h2 align='center'> No results found</h2>";
-                                    echo "<caption>Your search returned 0 results.";
-                                    echo "<img class='figure-img w-25' src='img/sad2.png' align='right'></caption>";
-                                }
-                                mysqli_close($dbc); // Close the database connection.
 
+                                    }
+                                    mysqli_close($dbc); // Close the database connection.
+
+                                }
                             }
+                            if ($count != 0) {
+                                echo "<h2 align='center'> Results found</h2>";
+                                echo "<caption>Result: Successfully find $count results.";
+                                echo "<img class='figure-img w-50' src='img/find.jpg' align='right'></caption>";
+                            }else {
+                                echo "<h2 align='center'> No results found</h2><br><br><br>";
+                                echo "<caption><img class='figure-img w-100' src='img/404.jpg' align='center'></caption>";
+                            }
+                            echo "</tbody>";
+                            echo "</table>";
+                        } else {
+                            echo "
+                                    <br>
+                                   <h4> &nbsp&nbspNow, let's begin our amazing time, you can type your need in the left blank, and we will find you the things you want.</h4>
+                                   <br>
+                                            <h4> &nbsp;Search by Name</h4>
+                                            <h4> &nbsp;Search by Tag</h4>
+                                            <h4> &nbsp;Search by ID</h4>
+                                            <img class='img-fluid' src='img/welcome.jpg' align='right'>";
+
                         }
                         ?>
-                        </tbody>
-                    </table>
+
+
                     </form>
                 </div>
 
@@ -403,6 +370,7 @@ session_start();
     </div>
 
 </div>
+
 <!-- /.container -->
 
 <footer class="bg-faded text-center py-5">

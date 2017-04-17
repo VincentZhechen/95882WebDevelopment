@@ -78,10 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <div class="collapse navbar-collapse" id="navbarExample">
             <ul class="navbar-nav mx-auto">
                 <li class="nav-item px-lg-4">
-                    <a class="nav-link text-uppercase text-expanded" href="customerEmpty.php">Search <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item px-lg-4">
-                    <a class="nav-link text-uppercase text-expanded" href="">Something</a>
+                    <a class="nav-link text-uppercase text-expanded" href="index.php">Back to home <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item px-lg-4">
                     <a class="nav-link text-uppercase text-expanded" href="">..</a>
@@ -114,7 +111,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <br>
         <h2 class="text-center text-lg text-uppercase my-0"><strong>Supply Form</strong></h2>
         <hr class="divider">
-        <form action = "business.php" method="post">
+        <form action = "Business.php" method="post">
             <div class="row">
                 <div class="form-group col-lg-4">
                     <label class="text-heading">Supermarket Name</label>

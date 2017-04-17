@@ -48,8 +48,8 @@ if (isset($_POST['mark'])) {
             }
         }
         if ($marked == false) {
-            $sql = "INSERT INTO privatelike(good_id, good_name, supermarket, price, description, user_account ) 
-                      VALUES ('$ID', '$name', '$supermarket', '$price', '$description','$account');";
+            $sql = "INSERT INTO privatelike(good_id, good_name, supermarket, price, description, user_account, addtime) 
+                      VALUES ('$ID', '$name', '$supermarket', '$price', '$description','$account',now());";
             $retval = mysqli_query($dbc, $sql);
             if ($retval) {
                 echo "<script> alert('success mark')</script>";

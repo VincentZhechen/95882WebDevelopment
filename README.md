@@ -39,5 +39,16 @@ relation_id INT NOT NULL AUTO_INCREMENT,
 user1 VARCHAR(30) NOT NULL,
 user2 VARCHAR(30) NOT NULL,
 start_time DATETIME NOT NULL,
+group VARCHAR(30),
 PRIMARY KEY (relation_id)
 );
+
+create table followlist (
+follow_id INT NOT NULL AUTO_INCREMENT,
+follower VARCHAR(30) NOT NULL,
+followed VARCHAR(30) NOT NULL,
+start_time DATETIME NOT NULL,
+PRIMARY KEY (follow_id)
+);
+
+ALTER TABLE friendship ADD group VARCHAR(20);

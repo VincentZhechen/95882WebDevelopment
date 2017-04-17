@@ -45,8 +45,7 @@ error_reporting(0);
     </style>
 
     <script>
-        var blink = "business.php";
-        var clink = "customerEmpty.php";
+        var clink = "Search.php";
 
         function activateAccount(accountname)
         {
@@ -66,8 +65,8 @@ error_reporting(0);
 
         function activateLink()
         {
-            document.getElementById("businesslink").href = blink;
             document.getElementById("customerlink").href = clink;
+            document.getElementById("businesslink").removeAttribute("href");
         }
 
         function disablelogin()
@@ -104,7 +103,7 @@ error_reporting(0);
                         <a class="nav-link text-uppercase text-expanded" id="customerlink" >Customer Search <span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item px-lg-4">
-                        <a class="nav-link text-uppercase text-expanded" id="businesslink">Business Supply</a>
+                        <a class="nav-link text-uppercase text-expanded" id="businesslink" href="Business.php">Business Supply</a>
 
                     </li>
                     <li class="nav-item px-lg-4">
@@ -174,21 +173,21 @@ error_reporting(0);
                         <img class="d-block img-fluid w-100" src="img/slide-1.jpg" alt="">
                         <div class="carousel-caption d-none d-md-block">
                             <h3 class="text-shadow">Food</h3>
-                            <p class="text-shadow">New coming foods.</p>
+                            <p class="text-shadow">Fresh fruit & vegetables.</p>
                         </div>
                     </div>
                     <div class="carousel-item">
                         <img class="d-block img-fluid w-100" src="img/slide-2.jpg" alt="">
                         <div class="carousel-caption d-none d-md-block">
-                            <h3 class="text-shadow">Shoes</h3>
-                            <p class="text-shadow">New coming shoes.</p>
+                            <h3 class="text-shadow">Clothes</h3>
+                            <p class="text-shadow">New coming clothes.</p>
                         </div>
                     </div>
                     <div class="carousel-item">
                         <img class="d-block img-fluid w-100" src="img/slide-3.jpg" alt="">
                         <div class="carousel-caption d-none d-md-block">
-                            <h3 class="text-shadow">Bags</h3>
-                            <p class="text-shadow">New coming bags.</p>
+                            <h3 class="text-shadow">Coming...</h3>
+                            <p class="text-shadow">New cool stuff.</p>
                         </div>
                     </div>
                 </div>
