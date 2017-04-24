@@ -362,14 +362,16 @@ mysqli_close($dbc); // Close the database connection.
                                             </div>
                                             <div class="form-group">
                                                 <label for="birth">Birthday</label><br>
-                                                <input type="date" name="birthday" class="text-expanded"><br>
+                                                <input type="text" name="birthday" class="text-expanded" placeholder="1949/10/01"><br>
                                             </div>
                                             <div class="form-group">
                                                 <label for="motto">Motto</label>
                                                 <input type="text" name="motto" id="motto" class="form-control input-lg" placeholder="My heart is in the work">
                                             </div>
                                             <div class="modal-footer">
-                                                <button type="submit" name="update" value="update" class="btn btn-primary">Update</button>
+                                                <button type="submit" name="update" value="update"
+                                                        class="btn btn-primary">Update</button>
+<!--                                                // onclick="window.location.reload(true);"-->
                                                 <button type="button" class="btn" data-dismiss="modal">Cancel</button>
                                             </div>
 
@@ -594,11 +596,40 @@ if (isset($_POST['update'])) {
 
     if (isset($_POST['birthday'])) {
         $date = $_POST['birthday'];
+        if (strpos($date, '-') !== false) {
+            $time = explode('-',$date);
+            if (strlen($time[0]) > 2 ) {
+                $date=date("Y-m-d",strtotime($date));
+                //success;
+            }else{
+                $date=$time[2].'-'.$time[0].'-'.$time[1];
+                $date = date("Y-m-d",strtotime($date));
+                //success;
+            }
+            $sql = "UPDATE users SET birthday='$date'WHERE user_name='$user'";
+            $retval = mysqli_query($dbc, $sql);
+            return;
+        }
+        if (strpos($date,'/') !== false) {
+            $time = explode('/',$date);
+            if (strlen($time[0]) > 2 ) {
+                $date=date("Y/m/d",strtotime($date));
+                //success;
+            }else{
+                $date=$time[2].'-'.$time[0].'-'.$time[1];
+                $date = date("Y/m/d",strtotime($date));
+                //success;
+            }
+        }
         $sql = "UPDATE users SET birthday='$date'WHERE user_name='$user'";
         $retval = mysqli_query($dbc, $sql);
     }
     if (isset($_POST['motto'])) {
         $mot = $_POST['motto'];
+        $mot = trim($mot);
+        if (strlen($mot)==0) {
+            return;
+        }
         $sql = "UPDATE users SET motto='$mot'WHERE user_name='$user'";
         $retval = mysqli_query($dbc, $sql);
     }

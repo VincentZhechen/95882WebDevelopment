@@ -42,6 +42,7 @@ error_reporting(0);
         .carousel-item.active, {
             display: block;
         }
+
     </style>
 
     <script>
@@ -202,7 +203,6 @@ error_reporting(0);
             </div>
             <!-- Welcome Message -->
             <div class="text-center mt-4">
-
                 <div class="text-heading text-muted text-lg">welcome</div>
                 <h2 class="my-2">Hi, this is matt! What you want to buy today? I can help you to check the supermarket nearby!</h2>
                 <div class="text-heading text-muted text-lg text-right">from <strong>Matt</strong></div>
@@ -243,7 +243,6 @@ error_reporting(0);
                     $_SESSION['user']= $name;
                     echo "<script> alert('Welcome back: ' + '$name')</script>";
                     echo "<script>activateAccount('$name')</script>";
-                    echo "<script></script>";
 
                 } else {
                     echo "<script> alert('Your password is not correct');</script>";

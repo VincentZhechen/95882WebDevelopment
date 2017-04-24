@@ -157,7 +157,20 @@ session_start();
                             $cout = 0;
                             switch ($_REQUEST['subject']) {
                                 case 'name': {
+                                    $common = file('lib/CommonWord.txt');
+                                    $total = count($common);
+                                    for($n=0;$n < $total;$n = $n +1) {
+                                        $common[$n] = trim($common[$n]);
+                                    }
                                     $key = trim($_POST['good_name']);
+                                    $array = explode(' ',$key);
+                                    foreach ($array as $word) {
+                                        if(in_array($word, $common)) {
+                                        } else {
+                                            $key = $word;
+                                            break;
+                                        }
+                                    }
                                     $sql = "SELECT id, good_name, supermarket, price, description,tag, promote FROM goods WHERE 
                                         good_name = '$key'ORDER BY promote DESC, price ASC";
                                     // Make the connection
