@@ -22,6 +22,7 @@ if (isset($_POST['vote'])){
         $sql = "UPDATE goods SET promote='$count' WHERE id='$ID'";
         $retval = mysqli_query($dbc, $sql);
     }
+    echo "<script> alert('vote success')</script>";
     mysqli_close($dbc);
 }
 
@@ -45,6 +46,7 @@ if (isset($_POST['mark'])) {
         while ($row2 = mysqli_fetch_array($retval)) {
             if ($row2['user_account'] == $account ) {
                 $marked = true;
+                echo "<script> alert('you have already mark')</script>";
             }
         }
         if ($marked == false) {
@@ -66,7 +68,13 @@ if (isset($_POST['tag'])){
     $ID = $_POST['tag'];
     $content = $_REQUEST["$ID"];
     echo $content;
+    $content = trim($content);
+    if (strlen($content) == 0) {
+        echo "<script> alert('can not tag with empty')</script>";
+        return;
+    }
     $sql = "UPDATE goods SET tag='$content' WHERE id='$ID'";
+    echo "<script> alert('success tag')</script>";
     $retval = mysqli_query($dbc, $sql);
     mysqli_close($dbc);
 }

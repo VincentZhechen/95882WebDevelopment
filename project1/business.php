@@ -10,17 +10,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     require ('mysqli_connect.php');
 
     //Make the query
-    $q = "INSERT INTO goods(good_name, supermarket, price, description) VALUES ('$na', '$sup', '$pr', '$des');";
+    $q = "INSERT INTO goods(good_name, supermarket, price, description, addtime) VALUES ('$na', '$sup', '$pr', '$des', now());";
     $r = mysqli_query ($dbc, $q); // Run the query.
 
     if ($r) { // If it ran OK.
         // Print a message:
-        
-
-    }else{
-        
+        echo"<script>alert('Supply Success!')</script>";
+    }else {
+        echo "<script>alert('Supply Error..')</script>";
     }
-    //mysqli_close($dbc); // Close the database connection.
+    mysqli_close($dbc); // Close the database connection.
 }
 ?>
 

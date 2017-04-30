@@ -42,7 +42,7 @@ session_start();
 
 <body>
 
-<div class="tagline-upper text-center text-heading text-shadow text-white mt-4 hidden-md-down">Find Favorite</div>
+<div class="tagline-upper text-center text-heading text-shadow text-white mt-4 hidden-md-down">Personal Page</div>
 <div class="tagline-lower text-center text-expanded text-shadow text-uppercase text-white mb-4 hidden-md-down">Carnegie Mellon University | Pittursburg, PA 15213 | Vincent & Sue</div>
 
 <?php
@@ -362,7 +362,7 @@ mysqli_close($dbc); // Close the database connection.
                                             </div>
                                             <div class="form-group">
                                                 <label for="birth">Birthday</label><br>
-                                                <input type="text" name="birthday" class="text-expanded" placeholder="1949/10/01"><br>
+                                                <input type="text" name="birthday" class="text-expanded" placeholder="YYYY/MM/DD"><br>
                                             </div>
                                             <div class="form-group">
                                                 <label for="motto">Motto</label>
@@ -436,8 +436,12 @@ mysqli_close($dbc); // Close the database connection.
                         // Make the connection
                         $dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME) OR die('Could not
                         connect to MySQL: ' . mysqli_connect_error());
-
-
+                        $sql = "SELECT birthday FROM users WHERE user_name='$user'";
+                        $retval = mysqli_query($dbc, $sql);
+                        if ($row=mysqli_fetch_array($retval)) {
+                            echo "<li><span>Birthday:&nbsp;</span>";
+                            echo "{$row['birthday']}</li>";
+                        }
                         $sql = "SELECT good_id FROM privatelike WHERE user_account='$user'";
                         $retval = mysqli_query($dbc, $sql);
                         $count = mysqli_num_rows($retval);

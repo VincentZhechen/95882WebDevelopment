@@ -1,5 +1,207 @@
 <?php
 session_start();
+if (!isset($_SESSION["lastviewed"])) {
+    $_SESSION["lastviewed"] = array();
+}
+
+
+function echoTableHead() {
+    echo "<thead>
+            <tr>
+            <th>ID</th>
+            <th>Good</th>
+            <th>Supermarket</th>
+            <th>Price</th>
+            <th>Description</th>
+            <th>Promote</th>
+            <th>Tag</th>
+            <th>Action</th>
+            </tr>
+            </thead>";
+}
+
+function echoTableData($row) {
+    record($row['id']);
+
+    $des = substr($row['description'], 0, 12);
+    $name = substr($row['good_name'], 0, 10);
+    $super = substr($row['supermarket'], 0, 12);
+    $price = substr($row['price'], 0, 8);
+    $tag = substr($row['tag'], 0, 12);
+    echo "<tr>";
+    echo "<td>{$row['id']}";
+    echo "<td>$name</td>";
+    echo "<td>$super</td>";
+    echo "<td>$price</td>";
+    echo "<td title='{$row['description']}' data-container='body' data-toggle='popover'
+                                                data-placement='top'>$des</td>";
+    echo "<td> {$row['promote']}&nbsp;up ";
+    echo "<td>$tag</td>";
+    echo "<td>
+              <div class='btn-group dropup btn-group-sm'>
+                  <button type=\"button\" class=\"btn btn-outline-info dropdown-toggle\" data-toggle=\"dropdown\">act 
+                      <span class=\"caret\"></span>
+                  </button>
+                      <ul class='dropdown-menu' role=\"menu\">
+                          <li><button type='submit'class='btn-outline-info' onclick='voteFunction({$row['id']})' name='vote'
+                              value='{$row['id']}'  id='tag{$row['id']}'>&nbsp;vote</button></li>
+                          <li><button type='submit' class='btn-outline-info'onclick='markFunction({$row['id']})'
+                              id='mark{$row['id']}'name='mark' value='{$row['id']}'>mark</button></li>
+                          <li><input type=\"text\" name={$row['id']} class=\"col-lg-8\">
+                             <button type='submit'class='btn-outline-info' onclick='tagFunction({$row['id']})' name='tag'
+                             value='{$row['id']}'  id='tag{$row['id']}'>&nbsp;tag</button></li>
+                   </ul>
+              </div>
+            </td>";
+    echo "</tr>";
+
+}
+
+function record($id) {
+    $maxelements = 5;
+    if (in_array($id, $_SESSION["lastviewed"])) {
+        $_SESSION["lastviewed"] = array_diff($_SESSION["lastviewed"], array($id));
+        $_SESSION["lastviewed"] = array_values($_SESSION["lastviewed"]);
+    }
+    if (count($_SESSION["lastviewed"]) >= $maxelements) {
+        $_SESSION["lastviewed"] = array_slice($_SESSION["lastviewed"],1);
+        array_push($_SESSION["lastviewed"],$id);
+    } else {
+        array_push($_SESSION["lastviewed"],$id);
+    }
+}
+
+//super market based related content.
+function echoRelated($count, $idList, $supermarketList) {
+      if ($count <= 0) {
+          return;
+      }
+      $findRecommendation = false;
+      echo "<h2 align='center'>Related Findings</h2>";
+      foreach ($supermarketList as $supermarket) {
+          $recommendationList = array();
+          $sql = "SELECT id, good_name, supermarket, price, description,tag, promote FROM goods WHERE 
+                                        supermarket = '$supermarket'ORDER BY promote DESC";
+          // Make the connection
+          $dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME) OR die('Could not
+                        connect to MySQL: ' . mysqli_connect_error());
+          $retval = mysqli_query($dbc, $sql);
+          while($row=mysqli_fetch_array($retval)) {
+              if (in_array($row['id'],$idList)) {
+                  continue;
+              }
+              $findRecommendation = true;
+              array_push($recommendationList, $row['id']);
+          }
+          if ($findRecommendation == true) {
+              break;
+          }
+      }
+
+      if ($findRecommendation==false) {
+          echo "<p>Sorry, no related findinds based on your search results...</p>";
+      } else {
+          echo "<table class=\"table table-hover\">";
+          echo "<tbody>";
+          echoTableHead();
+          $supermarket;
+          foreach ($recommendationList as $id) {
+              $sql = "SELECT id, good_name, supermarket, price, description,tag, promote FROM goods WHERE 
+                                        id = '$id'ORDER BY promote DESC";
+              // Make the connection
+              $dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME) OR die('Could not
+                        connect to MySQL: ' . mysqli_connect_error());
+              $retval = mysqli_query($dbc, $sql);
+              if ($row = mysqli_fetch_array($retval)) {
+                    echoTableData($row);
+                    $supermarket = $row['supermarket'];
+              }
+          }
+          echo "</tbody>";
+          echo "</table>";
+          echo "<captain>Recommendation based on supermarket, popular things in < $supermarket ></captain>";
+          echo "<br><br>";
+//          echo "<img class='figure-img w-100' src='img/recommendation.jpg' align='right'></captain>";
+          mysqli_close($dbc); // Close the database connection.
+      }
+
+
+
+
+}
+
+function echoFoundResult($count) {
+    if ($count != 0) {
+        echo "<h2 align='center'> Results Found</h2>";
+        echo "<caption>Result: Successfully find $count results.";
+
+        echo "<img class='figure-img w-50' src='img/find.jpg' align='right'></caption>";
+
+    }else {
+        echo "<h2 align='center'> No Results Found</h2><br><br><br>";
+        echo "<caption><img class='figure-img w-100' src='img/404.jpg' align='center'></caption>";
+    }
+}
+
+function echoHistory() {
+    require('mysqli_connect.php');
+
+    $array = $_SESSION["lastviewed"];
+    echo "<table class=\"table table-hover\">";
+    echo "<thead>
+            <tr>
+            <th>ID</th>
+            <th>Good</th>
+            <th>Supermarket</th>
+            <th>Price</th>
+            <th>Description</th>
+            <th>Promote</th>
+            <th>Tag</th>
+            </tr>
+            </thead>";
+    echo "<tbody>";
+    // Make the connection
+    $dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME) OR die('Could not 
+                        connect to MySQL: ' . mysqli_connect_error());
+    foreach ($array as $id) {
+        $sql = "SELECT id, good_name, supermarket, price, description,tag, promote FROM goods WHERE id='$id'";
+        $retval = mysqli_query($dbc, $sql);
+        if ($row = mysqli_fetch_array($retval)) {
+            $des = substr($row['description'], 0, 12);
+            $name = substr($row['good_name'], 0, 10);
+            $super = substr($row['supermarket'], 0, 12);
+            $price = substr($row['price'], 0, 8);
+            $tag = substr($row['tag'], 0, 12);
+            echo "<tr>";
+            echo "<td>{$row['id']}";
+            echo "<td>$name</td>";
+            echo "<td>$super</td>";
+            echo "<td>$price</td>";
+            echo "<td title='{$row['description']}' data-container='body' data-toggle='popover'
+                                                data-placement='top'>$des</td>";
+            echo "<td> {$row['promote']}&nbsp;up ";
+            echo "<td>$tag</td>";
+            echo "</tr>";
+        }
+    }
+    echo "</tbody>";
+    echo "</table>";
+    echo "<div class=\"modal-footer\">
+             <button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\">Confirm</button>
+          </div>";
+
+
+    if ($row = mysqli_fetch_array($retval)) {
+
+        echoTableData($row);
+    }
+    mysqli_close($dbc); // Close the database connection.
+
+
+
+
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -65,19 +267,6 @@ session_start();
 </script>
 
 
-<!--//            require('mysqli_connect.php');-->
-<!--            $sql = 'UPDATE goods-->
-<!--            SET tag = "CN"-->
-<!--            WHERE id=n';-->
-<!--//            $dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME) OR die('Could not-->
-<!--//            connect to MySQL: ' . mysqli_connect_error());-->
-<!--//            $retval = mysqli_query($dbc, $sql);-->
-<!--//            if(! $retval )-->
-<!--//            {-->
-<!--//                die('Could not update data: ' .mysqli_error());-->
-<!--//            }-->
-
-
 <!-- Navigation -->
 <nav class="navbar navbar-toggleable-md navbar-light navbar-custom bg-faded py-lg-4">
     <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarExample" aria-controls="navbarExample" aria-expanded="false" aria-label="Toggle navigation">
@@ -92,6 +281,23 @@ session_start();
                 </li>
                 <li class="nav-item px-lg-4">
                     <a class="nav-link text-uppercase text-expanded" href="Personal.php">Personal Page</a>
+                </li>
+                <li class="nav-item px-lg-4">
+                    <a class="nav-link text-uppercase text-expanded" data-toggle="modal" data-target="#myModal1">Recently Viewed</a>
+                    <div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title" id="myModalLabel">
+                                        <?php echo "Recently Viewed / History - 5 most recently recorded";?>
+                                    </h4>
+                                </div>
+                                <div class="modal-body">
+                                        <?php echoHistory();?>
+                                </div>
+                            </div><!-- /.modal-content -->
+                        </div><!-- /.modal -->
+                    </div>
                 </li>
                 <li class="nav-item px-lg-4">
                     <a class="nav-link text-uppercase text-expanded">..</a>
@@ -142,18 +348,13 @@ session_start();
                 </div>
             </form>
 
-
 <!--                <div class="clearfix"></div>-->
                 <div class="clearfix"></div>
                 <div class="form-control col-lg-9">
                     <iframe name="vota" style="display:none;"></iframe>
                     <form action="SearchBackEnd.php" method="post" target="vota">
-
-
-
                         <?php
                         if (isset($_POST['subject'])) {
-                            require('mysqli_connect.php');
                             $cout = 0;
                             switch ($_REQUEST['subject']) {
                                 case 'name': {
@@ -178,55 +379,22 @@ session_start();
                         connect to MySQL: ' . mysqli_connect_error());
                                     $retval = mysqli_query($dbc, $sql);
                                     $count = mysqli_num_rows($retval);
+                                    $idList = array();
+                                    $supermarketList = array();
                                     if ($count > 0) {
-                                        echo "<table class=\"table table-striped\">
-                                        <thead>
-                                        <tr>
-                                            <th>ID</th>
-                                            <th>Good</th>
-                                            <th>Supermarket</th>
-                                            <th>Price</th>
-                                            <th>Description</th>
-                                            <th>Promote</th>
-                                                <th>Tag</th>
-                                            <th>Action</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>";
+                                        echo "<table class=\"table table-hover\">";
+                                        echoTableHead();
+                                        echo "<tbody>";
                                     }
                                     while ($row = mysqli_fetch_array($retval)) {
-                                        $des = substr($row['description'], 0, 12);
-                                        $name = substr($row['good_name'], 0, 10);
-                                        $super = substr($row['supermarket'], 0, 12);
-                                        $price = substr($row['price'], 0, 8);
-                                        $tag = substr($row['tag'], 0, 12);
-                                        echo "<tr>";
-                                        echo "<td>{$row['id']}";
-                                        echo "<td>$name</td>";
-                                        echo "<td>$super</td>";
-                                        echo "<td>$price</td>";
-                                        echo "<td title='{$row['description']}' data-container='body' data-toggle='popover'
-                                                data-placement='top'>$des</td>";
-                                        echo "<td> {$row['promote']}&nbsp;up ";
-                                        echo "<td>$tag</td>";
-                                        echo "<td>
-                                                    <div class='btn-group dropup btn-group-sm'>
-                                                        <button type=\"button\" class=\"btn btn-outline-info dropdown-toggle\" data-toggle=\"dropdown\">act 
-                                                            <span class=\"caret\"></span>
-                                                        </button>
-                                                                <ul class='dropdown-menu' role=\"menu\">
-                                                                    <li><button type='submit'class='btn-outline-info' onclick='voteFunction({$row['id']})' name='vote'
-                                                                     value='{$row['id']}'  id='tag{$row['id']}'>&nbsp;vote</button></li>
-                                                                    <li><button type='submit' class='btn-outline-info'onclick='markFunction({$row['id']})'
-                                                                    id='mark{$row['id']}'name='mark' value='{$row['id']}'>mark</button></li>
-                                                                    <li><input type=\"text\" name={$row['id']} class=\"col-lg-8\">
-                                                                    <button type='submit'class='btn-outline-info' onclick='tagFunction({$row['id']})' name='tag'
-                                                                     value='{$row['id']}'  id='tag{$row['id']}'>&nbsp;tag</button></li>
-                                                                </ul>
-                                                    </div>
-                                            </td>";
-                                        echo "</tr>";
+                                        echoTableData($row);
+                                        array_push($idList, $row['id']);
+                                        array_push($supermarketList,$row['supermarket']);
                                     }
+                                    echoFoundResult($count);
+                                    echo "</tbody>";
+                                    echo "</table>";
+                                    echoRelated($count, $idList, $supermarketList);
                                     mysqli_close($dbc); // Close the database connection.
                                     break;
                                 }
@@ -240,54 +408,16 @@ session_start();
                                     $retval = mysqli_query($dbc, $sql);
                                     $count = mysqli_num_rows($retval);
                                     if ($count > 0) {
-                                        echo "<table class=\"table table-striped\">
-                                        <thead>
-                                        <tr>
-                                            <th>ID</th>
-                                            <th>Good</th>
-                                            <th>Supermarket</th>
-                                            <th>Price</th>
-                                            <th>Description</th>
-                                            <th>Promote</th>
-                                                <th>Tag</th>
-                                            <th>Action</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>";
+                                        echo "<table class=\"table table-hover\">";
+                                        echoTableHead();
+                                        echo "<tbody>";
                                     }
                                     while ($row = mysqli_fetch_array($retval)) {
-                                        $des = substr($row['description'], 0, 12);
-                                        $name = substr($row['good_name'], 0, 10);
-                                        $super = substr($row['supermarket'], 0, 12);
-                                        $price = substr($row['price'], 0, 8);
-                                        $tag = substr($row['tag'], 0, 12);
-                                        echo "<tr>";
-                                        echo "<td>{$row['id']}</td>";
-                                        echo "<td>$name</td>";
-                                        echo "<td>$super</td>";
-                                        echo "<td>$price</td>";
-                                        echo "<td title='{$row['description']}' data-container='body' data-toggle='popover'
-                                                data-placement='top'>$des</td>";
-                                        echo "<td> {$row['promote']}&nbsp;up ";
-                                        echo "<td>$tag</td>";
-                                        echo "<td>
-                                                    <div class='btn-group dropup btn-group-sm'>
-                                                        <button type=\"button\" class=\"btn btn-outline-info dropdown-toggle\" data-toggle=\"dropdown\">act 
-                                                            <span class=\"caret\"></span>
-                                                        </button>
-                                                                <ul class='dropdown-menu' role=\"menu\">
-                                                                    <li><button type='submit'class='btn-outline-info' onclick='voteFunction({$row['id']})' name='vote'
-                                                                     value='{$row['id']}'  id='tag{$row['id']}'>&nbsp;vote</button></li>
-                                                                    <li><button type='submit' class='btn-outline-info'onclick='markFunction({$row['id']})'
-                                                                    id='mark{$row['id']}'name='mark' value='{$row['id']}'>mark</button></li>
-                                                                    <li><input type=\"text\" name={$row['id']} class=\"col-lg-8\">
-                                                                    <button type='submit'class='btn-outline-info' onclick='tagFunction({$row['id']})' name='tag'
-                                                                     value='{$row['id']}'  id='tag{$row['id']}'>&nbsp;tag</button></li>
-                                                                </ul>
-                                                    </div>
-                                            </td>";
-                                        echo "</tr>";
+                                        echoTableData($row);
                                     }
+                                    echoFoundResult($count);
+                                    echo "</tbody>";
+                                    echo "</table>";
                                     mysqli_close($dbc); // Close the database connection.
                                     break;
                                 }
@@ -300,70 +430,20 @@ session_start();
                                     $retval = mysqli_query($dbc, $sql);
                                     $count = mysqli_num_rows($retval);
                                     if ($row = mysqli_fetch_array($retval)) {
-                                        echo "<table class=\"table table-striped\">
-                                        <thead>
-                                        <tr>
-                                            <th>ID</th>
-                                            <th>Good</th>
-                                            <th>Supermarket</th>
-                                            <th>Price</th>
-                                            <th>Description</th>
-                                            <th>Promote</th>
-                                                <th>Tag</th>
-                                            <th>Action</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>";
-                                        $des = substr($row['description'], 0, 12);
-                                        $name = substr($row['good_name'], 0, 10);
-                                        $super = substr($row['supermarket'], 0, 12);
-                                        $price = substr($row['price'], 0, 8);
-                                        $tag = substr($row['tag'], 0, 12);
-                                        echo "<tr>";
-                                        echo "<td>{$row['id']}";
-                                        echo "<td>$name</td>";
-                                        echo "<td>$super</td>";
-                                        echo "<td>$price</td>";
-                                        echo "<td title='{$row['description']}' data-container='body' data-toggle='popover'
-                                                data-placement='top'>$des</td>";
-                                        echo "<td> {$row['promote']}&nbsp;up ";
-                                        echo "<td>$tag</td>";
-                                        echo "<td>
-                                                    <div class='btn-group dropup btn-group-sm'>
-                                                        <button type=\"button\" class=\"btn btn-outline-info dropdown-toggle\" data-toggle=\"dropdown\">act 
-                                                            <span class=\"caret\"></span>
-                                                        </button>
-                                                                <ul class='dropdown-menu' role=\"menu\">
-                                                                    <li><button type='submit'class='btn-outline-info' onclick='voteFunction({$row['id']})' name='vote'
-                                                                     value='{$row['id']}'  id='tag{$row['id']}'>&nbsp;vote</button></li>
-                                                                    <li><button type='submit' class='btn-outline-info'onclick='markFunction({$row['id']})'
-                                                                    id='mark{$row['id']}'name='mark' value='{$row['id']}'>mark</button></li>
-                                                                    <li><input type=\"text\" name={$row['id']} class=\"col-lg-8\">
-                                                                    <button type='submit'class='btn-outline-info' onclick='tagFunction({$row['id']})' name='tag'
-                                                                     value='{$row['id']}'  id='tag{$row['id']}'>&nbsp;tag</button></li>
-                                                                </ul>
-                                                    </div>
-                                            </td>";
-                                        echo "</tr>";
-
+                                        echo "<table class=\"table table-hover\">";
+                                        echoTableHead();
+                                        echo "<tbody>";
+                                        echoTableData($row);
                                     }
+                                    echoFoundResult($count);
+                                    echo "</tbody>";
+                                    echo "</table>";
                                     mysqli_close($dbc); // Close the database connection.
-
                                 }
                             }
-                            if ($count != 0) {
-                                echo "<h2 align='center'> Results found</h2>";
-                                echo "<caption>Result: Successfully find $count results.";
-                                echo "<img class='figure-img w-50' src='img/find.jpg' align='right'></caption>";
-                            }else {
-                                echo "<h2 align='center'> No results found</h2><br><br><br>";
-                                echo "<caption><img class='figure-img w-100' src='img/404.jpg' align='center'></caption>";
-                            }
-                            echo "</tbody>";
-                            echo "</table>";
                         } else {
                             echo "
-                                    <br>
+                                   <br>
                                    <h4> &nbsp&nbspNow, let's begin our amazing time, you can type your need in the left blank, and we will find you the things you want.</h4>
                                    <br>
                                             <h4> &nbsp;Search by Name</h4>
@@ -373,8 +453,6 @@ session_start();
 
                         }
                         ?>
-
-
                     </form>
                 </div>
 
