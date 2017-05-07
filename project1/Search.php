@@ -21,8 +21,6 @@ function echoTableHead() {
 }
 
 function echoTableData($row) {
-    record($row['id']);
-
     $des = substr($row['description'], 0, 12);
     $name = substr($row['good_name'], 0, 10);
     $super = substr($row['supermarket'], 0, 12);
@@ -72,26 +70,39 @@ function record($id) {
 }
 
 //super market based related content.
-function echoRelated($count, $idList, $supermarketList) {
+function echoRelated($count, $idList) {
       if ($count <= 0) {
           return;
       }
       $findRecommendation = false;
       echo "<h2 align='center'>Related Findings</h2>";
-      foreach ($supermarketList as $supermarket) {
+      foreach ($idList as $goodid) {
           $recommendationList = array();
-          $sql = "SELECT id, good_name, supermarket, price, description,tag, promote FROM goods WHERE 
-                                        supermarket = '$supermarket'ORDER BY promote DESC";
+          $sql = "SELECT user_account FROM privatelike WHERE 
+                                        good_id = '$goodid'";
           // Make the connection
           $dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME) OR die('Could not
                         connect to MySQL: ' . mysqli_connect_error());
           $retval = mysqli_query($dbc, $sql);
-          while($row=mysqli_fetch_array($retval)) {
-              if (in_array($row['id'],$idList)) {
-                  continue;
+          $userList = array();
+          if ($retval) {
+                while ($row = mysqli_fetch_array($retval)) {
+                    if (in_array($row['user_account'], $userList)) {
+                        continue;
+                    }
+                array_push($userList, $row['user_account']);
+                }
+          }
+          foreach($userList as $username) {
+              $sql = "SELECT good_id FROM privatelike WHERE user_account = '$username'";
+              $retval = mysqli_query($dbc, $sql);
+              while($row = mysqli_fetch_array($retval)) {
+                  if (in_array($row['good_id'],$idList)) {
+                      continue;
+                  }
+                  $findRecommendation = true;
+                  array_push($recommendationList, $row['good_id']);
               }
-              $findRecommendation = true;
-              array_push($recommendationList, $row['id']);
           }
           if ($findRecommendation == true) {
               break;
@@ -104,7 +115,10 @@ function echoRelated($count, $idList, $supermarketList) {
           echo "<table class=\"table table-hover\">";
           echo "<tbody>";
           echoTableHead();
-          $supermarket;
+          if (count($recommendationList) > 5) {
+              $trim = array_slice($recommendationList,0,5);
+              $recommendationList = $trim;
+          }
           foreach ($recommendationList as $id) {
               $sql = "SELECT id, good_name, supermarket, price, description,tag, promote FROM goods WHERE 
                                         id = '$id'ORDER BY promote DESC";
@@ -114,19 +128,15 @@ function echoRelated($count, $idList, $supermarketList) {
               $retval = mysqli_query($dbc, $sql);
               if ($row = mysqli_fetch_array($retval)) {
                     echoTableData($row);
-                    $supermarket = $row['supermarket'];
               }
           }
           echo "</tbody>";
           echo "</table>";
-          echo "<captain>Recommendation based on supermarket, popular things in < $supermarket ></captain>";
+          echo "<captain>Here are some things you may also like</captain>";
           echo "<br><br>";
 //          echo "<img class='figure-img w-100' src='img/recommendation.jpg' align='right'></captain>";
           mysqli_close($dbc); // Close the database connection.
       }
-
-
-
 
 }
 
@@ -190,16 +200,33 @@ function echoHistory() {
              <button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\">Confirm</button>
           </div>";
 
-
     if ($row = mysqli_fetch_array($retval)) {
 
         echoTableData($row);
     }
     mysqli_close($dbc); // Close the database connection.
 
+}
 
-
-
+function echoTable($retval) {
+    $count = mysqli_num_rows($retval);
+    $idList = array();
+    $supermarketList = array();
+    if ($count > 0) {
+        echo "<table class=\"table table-hover\">";
+        echoTableHead();
+        echo "<tbody>";
+    }
+    while ($row = mysqli_fetch_array($retval)) {
+        echoTableData($row);
+        record($row['id']);
+        array_push($idList, $row['id']);
+        array_push($supermarketList,$row['supermarket']);
+    }
+    echoFoundResult($count);
+    echo "</tbody>";
+    echo "</table>";
+    echoRelated($count, $idList, $supermarketList);
 }
 
 ?>
@@ -245,7 +272,7 @@ function echoHistory() {
 <body>
 
 <div class="tagline-upper text-center text-heading text-shadow text-white mt-4 hidden-md-down">Find Favorite</div>
-<div class="tagline-lower text-center text-expanded text-shadow text-uppercase text-white mb-4 hidden-md-down">Carnegie Mellon University | Pittursburg, PA 15213 | Vincent & Sue</div>
+<div class="tagline-lower text-center text-expanded text-shadow text-uppercase text-white mb-4 hidden-md-down">Carnegie Mellon University | Pittsburgh, PA 15213 | Vincent & Sue</div>
 
 <script>
     $(function () {
@@ -330,7 +357,7 @@ function echoHistory() {
                         <br>
                     </div>
                     <div class="form-group col-lg-12">
-                        <label class="text-heading">Goods' Type</label>
+                        <label class="text-heading">Goods' Tag</label>
                         <input type="text" name="good_type" class="form-control">
                         <br>
                         <button type="submit" name="subject" value="type" class="btn btn-secondary">
@@ -365,11 +392,14 @@ function echoHistory() {
                                     }
                                     $key = trim($_POST['good_name']);
                                     $array = explode(' ',$key);
+                                    $key = "";
                                     foreach ($array as $word) {
                                         if(in_array($word, $common)) {
                                         } else {
-                                            $key = $word;
-                                            break;
+                                            if (strlen($key) > 1) {
+                                                $key = $key." ";
+                                            }
+                                            $key = $key.$word;
                                         }
                                     }
                                     $sql = "SELECT id, good_name, supermarket, price, description,tag, promote FROM goods WHERE 
@@ -378,23 +408,7 @@ function echoHistory() {
                                     $dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME) OR die('Could not
                         connect to MySQL: ' . mysqli_connect_error());
                                     $retval = mysqli_query($dbc, $sql);
-                                    $count = mysqli_num_rows($retval);
-                                    $idList = array();
-                                    $supermarketList = array();
-                                    if ($count > 0) {
-                                        echo "<table class=\"table table-hover\">";
-                                        echoTableHead();
-                                        echo "<tbody>";
-                                    }
-                                    while ($row = mysqli_fetch_array($retval)) {
-                                        echoTableData($row);
-                                        array_push($idList, $row['id']);
-                                        array_push($supermarketList,$row['supermarket']);
-                                    }
-                                    echoFoundResult($count);
-                                    echo "</tbody>";
-                                    echo "</table>";
-                                    echoRelated($count, $idList, $supermarketList);
+                                    echoTable($retval);
                                     mysqli_close($dbc); // Close the database connection.
                                     break;
                                 }
@@ -406,18 +420,7 @@ function echoHistory() {
                                     $dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME) OR die('Could not 
                         connect to MySQL: ' . mysqli_connect_error());
                                     $retval = mysqli_query($dbc, $sql);
-                                    $count = mysqli_num_rows($retval);
-                                    if ($count > 0) {
-                                        echo "<table class=\"table table-hover\">";
-                                        echoTableHead();
-                                        echo "<tbody>";
-                                    }
-                                    while ($row = mysqli_fetch_array($retval)) {
-                                        echoTableData($row);
-                                    }
-                                    echoFoundResult($count);
-                                    echo "</tbody>";
-                                    echo "</table>";
+                                    echoTable($retval);
                                     mysqli_close($dbc); // Close the database connection.
                                     break;
                                 }
@@ -428,16 +431,7 @@ function echoHistory() {
                                     $dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME) OR die('Could not 
                         connect to MySQL: ' . mysqli_connect_error());
                                     $retval = mysqli_query($dbc, $sql);
-                                    $count = mysqli_num_rows($retval);
-                                    if ($row = mysqli_fetch_array($retval)) {
-                                        echo "<table class=\"table table-hover\">";
-                                        echoTableHead();
-                                        echo "<tbody>";
-                                        echoTableData($row);
-                                    }
-                                    echoFoundResult($count);
-                                    echo "</tbody>";
-                                    echo "</table>";
+                                    echoTable($retval);
                                     mysqli_close($dbc); // Close the database connection.
                                 }
                             }

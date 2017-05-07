@@ -42,9 +42,9 @@ if (isset($_POST['addfriend'])) {
             return;
         }
     }
-    $sql2 = "INSERT INTO friendship (user1, user2, start_time) VALUES ('$user1', '$user2', now());";
+    $sql2 = "INSERT INTO friendship (user1, user2, start_time, g) VALUES ('$user1', '$user2', now(), 'friend');";
     $retval = mysqli_query($dbc, $sql2);
-    $sql3 = "INSERT INTO friendship (user1, user2, start_time) VALUES ('$user2', '$user1', now());";
+    $sql3 = "INSERT INTO friendship (user1, user2, start_time, g) VALUES ('$user2', '$user1', now(), 'friend');";
     $retval = mysqli_query($dbc, $sql3);
     echo "<script> alert('Success add friends.');</script>";
 }

@@ -67,7 +67,7 @@ error_reporting(0);
         function activateLink()
         {
             document.getElementById("customerlink").href = clink;
-            document.getElementById("businesslink").removeAttribute("href");
+          //  document.getElementById("businesslink").removeAttribute("href");
         }
 
         function disablelogin()
@@ -84,8 +84,8 @@ error_reporting(0);
 
 <body>
 
-    <div class="tagline-upper text-center text-heading text-shadow text-white mt-4 hidden-md-down">SUPPER MATT</div>
-    <div class="tagline-lower text-center text-expanded text-shadow text-uppercase text-white mb-4 hidden-md-down">Carnegie Mellon University | Pittursburg, PA 15213 | Vincent & Sue
+    <div class="tagline-upper text-center text-heading text-shadow text-white mt-4 hidden-md-down">SUPER MATT</div>
+    <div class="tagline-lower text-center text-expanded text-shadow text-uppercase text-white mb-4 hidden-md-down">Carnegie Mellon University | Pittsburgh, PA 15213 | Vincent & Sue
     </div>
 
 

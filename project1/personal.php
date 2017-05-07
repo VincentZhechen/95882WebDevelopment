@@ -43,7 +43,7 @@ session_start();
 <body>
 
 <div class="tagline-upper text-center text-heading text-shadow text-white mt-4 hidden-md-down">Personal Page</div>
-<div class="tagline-lower text-center text-expanded text-shadow text-uppercase text-white mb-4 hidden-md-down">Carnegie Mellon University | Pittursburg, PA 15213 | Vincent & Sue</div>
+<div class="tagline-lower text-center text-expanded text-shadow text-uppercase text-white mb-4 hidden-md-down">Carnegie Mellon University | Pittsburgh, PA 15213 | Vincent & Sue</div>
 
 <?php
 require('mysqli_connect.php');
@@ -105,8 +105,9 @@ mysqli_close($dbc); // Close the database connection.
                                         <tr>
 
                                             <th>Name</th>
-                                            <th>Gender</th>
                                             <th>&nbsp;Motto&nbsp;</th>
+                                            <th>Gender</th>
+                                            <th>Birthday</th>
                                             <th>Group</th>
                                             <th>Action</th>
                                         </tr>
@@ -124,13 +125,22 @@ mysqli_close($dbc); // Close the database connection.
                                         while ($row = mysqli_fetch_array($retval)) {
                                             $group = $row['g'];
                                             $friend = $row['user2'];
-                                            $sql2 = "SELECT gender, motto FROM users WHERE user_name ='$friend'";
+                                            $sql2 = "SELECT gender, motto, birthday FROM users WHERE user_name ='$friend'";
                                             $retval2 = mysqli_query($dbc, $sql2);
                                             if ($row2 = mysqli_fetch_array($retval2)) {
                                                 echo "<tr>";
                                                 echo "<td>$friend</td>";
-                                                echo "<td>{$row2['gender']}</td>";
                                                 echo "<td>{$row2['motto']}</td>";
+                                                echo "<td>{$row2['gender']}</td>";
+                                                $sql3 = "SELECT g FROM friendship WHERE user1 ='$friend' AND user2 ='{$_SESSION['user']}'";
+                                                $retval3 = mysqli_query($dbc, $sql3);
+                                                if ($row3 = mysqli_fetch_array($retval3)) {
+                                                    if ($row3['g'] == 'family') {
+                                                        echo "<td>{$row2['birthday']}</td>";
+                                                    } else {
+                                                        echo "<td>&nbsp;</td>";
+                                                    }
+                                                }
                                                 echo "<td>$group</td>";
                                                 echo "<td><div class='btn-group btn-group'>
                                                             <button type=\"button\" class=\"btn btn-link dropdown-toggle\" 
@@ -139,9 +149,7 @@ mysqli_close($dbc); // Close the database connection.
                                                             </button>
                                                             <ul class=\"dropdown-menu\" role=\"menu\">
                                                                 <li><button class = 'btn-link' name='family' value='$friend'>family</button></li>
-                                                                <li><button class = 'btn-link' name='classmate' value='$friend'>classmate</button></li>
-                                                                <li><button class = 'btn-link' name='famous' value='$friend'>famous</button></li>
-                                                                <li><button class = 'btn-link'name='default' value='$friend'>default</button></li>
+                                                                <li><button class = 'btn-link' name='classmate' value='$friend'>friends</button></li>
                                                             </ul>
                                                        </div></td>";
                                                 echo "</tr>";
@@ -163,13 +171,13 @@ mysqli_close($dbc); // Close the database connection.
                                                 <button type="submit" name="addfriend" value="addfriend" class="btn btn-info">&nbsp;Add&nbsp;</button>
                                             </div>
                                         </div>
-                                        <div class="form-group">
-                                            <label">Invite a new friend </label>
-                                            <div class="row col-lg-12">
-                                                <input type="email" name="emailinvite" class="form-control input-lg col-sm-9" placeholder="Email@outlook.com">
-                                                <button type="submit" name="invite" value="invitefriend" class="btn btn-info">Send</button>
-                                            </div>
-                                        </div>
+<!--                                        <div class="form-group">-->
+<!--                                            <label">Invite a new friend </label>-->
+<!--                                            <div class="row col-lg-12">-->
+<!--                                                <input type="email" name="emailinvite" class="form-control input-lg col-sm-9" placeholder="Email@outlook.com">-->
+<!--                                                <button type="submit" name="invite" value="invitefriend" class="btn btn-info">Send</button>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
                                     </form>
 
                                 </div>
@@ -624,9 +632,10 @@ if (isset($_POST['update'])) {
                 $date = date("Y/m/d",strtotime($date));
                 //success;
             }
+            $sql = "UPDATE users SET birthday='$date'WHERE user_name='$user'";
+            $retval = mysqli_query($dbc, $sql);
         }
-        $sql = "UPDATE users SET birthday='$date'WHERE user_name='$user'";
-        $retval = mysqli_query($dbc, $sql);
+
     }
     if (isset($_POST['motto'])) {
         $mot = $_POST['motto'];

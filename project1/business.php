@@ -1,19 +1,19 @@
 <?php
+//connect to the database
+require ('mysqli_connect.php');
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+if (isset($_POST['supply'])) {
     $sup = trim($_POST['supermarket']);
     $na = trim($_POST['good_name']);
     $pr = trim($_POST['price']);
     $des = trim($_POST['description']);
 
-    //connect to the database
-    require ('mysqli_connect.php');
 
     //Make the query
     $q = "INSERT INTO goods(good_name, supermarket, price, description, addtime) VALUES ('$na', '$sup', '$pr', '$des', now());";
-    $r = mysqli_query ($dbc, $q); // Run the query.
-
-    if ($r) { // If it ran OK.
+    $dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME) OR die('Could not
+                        connect to MySQL: ' . mysqli_connect_error());
+    if ($r= mysqli_query ($dbc, $q)) { // If it ran OK.
         // Print a message:
         echo"<script>alert('Supply Success!')</script>";
     }else {
@@ -63,7 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <body>
 
 <div class="tagline-upper text-center text-heading text-shadow text-white mt-4 hidden-md-down">Supply New Goods</div>
-<div class="tagline-lower text-center text-expanded text-shadow text-uppercase text-white mb-4 hidden-md-down">Carnegie Mellon University | Pittursburg, PA 15213 | Vincent & Sue
+<div class="tagline-lower text-center text-expanded text-shadow text-uppercase text-white mb-4 hidden-md-down">Carnegie Mellon University | Pittsburgh, PA 15213 | Vincent & Sue
 </div>
 
     
@@ -96,9 +96,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         else {
             element.rows = "1";
         }
-        
+
     }
-    {}
+
 </script>
 
 <div class="container">
@@ -130,7 +130,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <textarea class="form-control" id="descript" onclick="changeText()" name="description" rows="1"></textarea>
                 </div>
                 <div class="form-group col-lg-12">
-                    <button type="submit" class="btn btn-secondary">Supply</button>
+                    <button type="submit" name="supply" value="supply" class="btn btn-secondary">Supply</button>
                 </div>
             </div>
         </form>
