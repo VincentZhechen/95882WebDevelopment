@@ -1,54 +1,7 @@
-# 95882WebDevelopment
-For 95882 Course Project
+# Super Matt - An E Commerce Web App
 
-mysql database configure:
+Skills Set: Full-stack, UI Design Patterns, PHP, HTML, Javascript, MySQL, Bootstrap, CSS
 
-create table goods(
-id INT NOT NULL AUTO_INCREMENT,
-good_name VARCHAR(100) NOT NULL,
-supermarket VARCHAR(100) NOT NULL,
-price DOUBLE NOT NULL,
-description VARCHAR(255),
-tag VARCHAR(100) DEFAULT NULL,
-promote INT DEFAULT 0,
-PRIMARY KEY ( id )
-);
+-Designing an eCommerce Search website based on a basic Web 2.0 idea, named SupperMatt for people to search, appraise, mark goods and share information with friends.
 
-create table users (
-user_id INT NOT NULL AUTO_INCREMENT,
-user_name VARCHAR(30) NOT NULL,
-password CHAR(40) NOT NULL,
-registration_date DATETIME NOT NULL,
-gender CHAR(10), 
-birthday DATETIME,
-motto VARCHAR(100),
-PRIMARY KEY (user_id)
-);
-
-create table privatelike (
-good_id INT NOT NULL AUTO_INCREMENT,
-good_name VARCHAR(100) NOT NULL,
-supermarket VARCHAR(100) NOT NULL,
-price DOUBLE NOT NULL,
-description VARCHAR(255),
-user_account VARCHAR(100) NOT NULL
-);
-
-create table friendship (
-relation_id INT NOT NULL AUTO_INCREMENT,
-user1 VARCHAR(30) NOT NULL,
-user2 VARCHAR(30) NOT NULL,
-start_time DATETIME NOT NULL,
-group VARCHAR(30),
-PRIMARY KEY (relation_id)
-);
-
-create table followlist (
-follow_id INT NOT NULL AUTO_INCREMENT,
-follower VARCHAR(30) NOT NULL,
-followed VARCHAR(30) NOT NULL,
-start_time DATETIME NOT NULL,
-PRIMARY KEY (follow_id)
-);
-
-ALTER TABLE friendship ADD group VARCHAR(20);
+-Building a user friendly interface and a good user experiences application, incorporating 20 design patterns in total, including Empty States, Tagging, Personal/Public Like, Dashboards, Activity Feeds, Friends, Forgiving Format, Natural Language Input, Content Recommendation and History.
